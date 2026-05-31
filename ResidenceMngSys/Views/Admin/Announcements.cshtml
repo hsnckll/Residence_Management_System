@@ -1,0 +1,99 @@
+﻿@{
+    ViewData["Title"] = "Duyurular";
+    ViewData["ActiveMenu"] = "announcements";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+@model ResidenceMngSys.Models.UserViewModel
+
+<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem;">
+    <div>
+        <h2 class="section-title" style="margin-bottom: 0.25rem;">Duyurular</h2>
+        <p style="color: #64748b; font-size: 0.95rem;">@Model.duyurular.Count() Adet duyuru oluşturdunuz.</p>
+    </div>
+    <form asp-action="duyuruolustur" asp-controller="Admin" method="get">
+        <button style="background: #2563eb; color: white; padding: 0.75rem 1.25rem; border-radius: 9999px; font-weight: 500; font-size: 0.9rem; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: background 0.2s; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);"
+                onmouseover="this.style.background='#1d4ed8'" onmouseout="this.style.background='#2563eb'"
+                id="newAnnouncementBtn">
+            <i class="fa-solid fa-plus"></i> Duyuru Ekle
+        </button>
+    </form>
+   
+
+</div>
+<div style="display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1rem;">
+
+@if (!Model.duyurular.Any())
+{
+        <div style="text-align: center; padding: 3rem; color: #94a3b8;">
+            <i class="fa-solid fa-bullhorn" style="font-size: 2.5rem; margin-bottom: 1rem; display: block;"></i>
+            <p style="font-size: 1rem; font-weight: 500;">Henüz hiç duyuru oluşturmadınız.</p>
+            <p style="font-size: 0.875rem;">Yeni bir duyuru eklemek için "Duyuru Ekle" butonunu kullanabilirsiniz.</p>
+        </div>
+}
+else{
+@foreach (var duyuru in Model.duyurular)
+{
+    <!-- Announcement List -->
+<div style="display: flex; flex-direction: column; gap: 1rem;">
+    <!-- Card  (Normal) -->
+    <div style="background: white; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; position: relative;">
+        <!-- Delete Button -->
+            <form asp-action="duyurukaldır" asp-controller="Admin" method="post"
+                  onsubmit="return confirm('Bu duyuruyu silmek istediğinize emin misiniz?');">
+                
+                <input type="hidden" name="id" value="@duyuru.Id" />
+                <button style="position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: #94a3b8; font-size: 1.1rem; cursor: pointer; transition: color 0.2s;"
+                        onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#94a3b8'">
+                    <i class="fa-regular fa-trash-can"></i>
+                </button>
+            </form>
+        
+
+        <!-- Header -->
+       
+            <div style="display: flex; gap: 1rem; align-items: flex-start;">
+                <div style="width: 44px; height: 44px; border-radius: 0.75rem; background: #eff6ff; color: #3b82f6; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; flex-shrink: 0;">
+                <i class="fa-solid fa-bullhorn"></i>
+            </div>
+            <div style="flex: 1; min-width: 0;">
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.25rem;">
+                    <h3 style="font-size: 1.1rem; font-weight: 600; color: #0f172a; margin: 0;">
+                        @duyuru.Title
+                    </h3>
+                        @if (duyuru.ImportanceStatus == "Acil")
+                        {
+                            <span style="background-color: #fee2e2; color: #ef4444; font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 9999px; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                <i class="fa-solid fa-triangle-exclamation"></i> Acil
+                            </span>
+                        }
+                        else if (duyuru.ImportanceStatus == "Önemli")
+                        {
+                            <span style="background-color: #fef3c7; color: #d97706; font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 9999px; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                <i class="fa-solid fa-circle-exclamation"></i> Önemli
+                            </span>
+                        }
+                        else
+                        {
+                            <span style="background-color: #f1f5f9; color: #475569; font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: 9999px; display: inline-flex; align-items: center; gap: 0.3rem;">
+                                <i class="fa-solid fa-info-circle"></i> Normal
+                            </span>
+                        }
+                </div>
+                    <div style="color: #94a3b8; font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem;">
+                        <i class="fa-regular fa-calendar"></i> @duyuru.CreatedAt
+                    </div>
+                </div>
+            </div>
+        
+        <!-- Body -->
+        <p style="color: #475569; font-size: 0.95rem; margin: 0; line-height: 1.5;">
+            @duyuru.Contents
+        </p>
+        
+    </div>
+    
+</div>
+}
+}

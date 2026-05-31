@@ -1,0 +1,148 @@
+﻿@{
+    ViewData["Title"] = "Sakinler";
+    ViewData["ActiveMenu"] = "residents";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert-success">
+            @TempData["Success"]
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert-error">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            @TempData["ErrorMessage"]
+        </div>
+    }
+
+
+}
+
+@model ResidenceMngSys.Models.UserViewModel
+
+
+<div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem;">
+    <div>
+        <h2 class="section-title" style="margin-bottom: 0.25rem;">Sakinler</h2>
+        <p style="color: #64748b; font-size: 0.95rem;"> Kayıtlı sakin sayısı</p>
+    </div>
+
+    <form asp-action="kullaniciekleme" asp-controller="Admin" method="get">
+        <button style="background: #2563eb; color: white; padding: 0.75rem 1.25rem; border-radius: 9999px; font-weight: 500; font-size: 0.9rem; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fa-solid fa-plus"></i> Sakin Ekle
+        </button>
+    </form>
+    
+
+
+</div>
+
+<div style="margin-bottom: 1.5rem; position: relative;">
+    <i class="fa-solid fa-search" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: #94a3b8;"></i>
+    <input type="text" placeholder="İsim, kullanıcı adı veya daire ara..."
+           style="width: 100%; padding: 0.875rem 1rem 0.875rem 2.5rem; border: 1px solid #e2e8f0; border-radius: 0.75rem; font-size: 0.95rem; outline: none;">
+</div>
+
+
+
+<div style="background: white; border: 1px solid #e2e8f0; border-radius: 1rem; overflow-x: auto;">
+    <table style="width: 100%; border-collapse: collapse; min-width: 800px;">
+        <thead>
+            <tr style="background: #f8fafc; border-bottom: 1px solid #e2e8f0;">
+                <th style="text-align: left; padding: 1rem 1.5rem; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Sakin</th>
+                <th style="text-align: left; padding: 1rem 1.5rem; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Daire</th>
+                <th style="text-align: left; padding: 1rem 1.5rem; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Şifre</th>
+                
+                <th style="text-align: center; padding: 1rem 1.5rem; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Aktiflik Durumu</th>
+                <th style="text-align: center; padding: 1rem 1.5rem; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Mail</th>
+                <th style="text-align: center; padding: 1rem 1.5rem; font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Telefon Numarası</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.UserList)
+            {
+                <tr style="border-bottom: 1px solid #e2e8f0;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+                    <td style="padding: 1rem 1.5rem;">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <div style="width:40px;height:40px;border-radius:50%;background:#eff6ff;color:#3b82f6;display:flex;align-items:center;justify-content:center;font-size:0.9rem;font-weight:600;"> @user.Name[0]@user.Surname[0]</div>
+                            <div>
+                                <div style="color:#0f172a;font-weight:500;">@user.Name @user.Surname</div>
+                                <div style="color:#94a3b8;font-size:0.8rem;">Kayıt: @user.CreatedAt.ToString("dd.MM.yyyy")</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td style="padding: 1rem 1.5rem; color: #475569;">
+
+                        @(user.Apartment != null
+                                            ? $"Blok {user.Apartment.BlockNo} - Kat {user.Apartment.FloorNo} - Daire {user.Apartment.ApartmentNo}"
+                                            : "Daire atanmamış")
+                       @* Mesela burada includenin sayesinde apartment.blockno kullanabilmişiz *@
+                    </td>
+                    <td style="padding: 1rem 1.5rem; text-align: center; color: #3b82f6; font-weight: 600;">@user.Password</td>
+                    
+                    <td style="padding: 1rem 1.5rem; text-align: center; color: #efefef; font-weight: 600;">
+                        @if (user.IsActive==1)
+                        {
+                            <span style="background:#dcfce7;color:#16a34a;padding:0.25rem 0.75rem;border-radius:9999px;font-size:0.85rem;font-weight:500;">Aktif</span>
+                        }
+                        else
+                        {
+                            <span style="background:#fee2e2;color:#ef4444;padding:0.25rem 0.75rem;border-radius:9999px;font-size:0.85rem;font-weight:500;">Pasif</span>
+                        }
+                    </td>
+                    <td style="padding: 1rem 1.5rem;">
+                        <span style="background:#f1f5f9;color:#64748b;padding:0.25rem 0.5rem;border-radius:0.5rem;font-size:0.85rem;font-family:monospace;">
+                            @user.Mail
+                        </span>
+                    </td>
+                    <td style="padding: 1rem 1.5rem; text-align: center; color: #3b82f6; font-weight: 600;">@user.PhoneNumber</td>
+
+
+                    <td style="padding: 1rem 1.5rem; text-align: center;">
+                        <div style="display:flex;justify-content:center;gap:0.75rem;">
+
+
+                            <form asp-action="KullaniciGuncelleme" asp-controller="Admin" method="get">
+                                <input type="hidden" name="id" value="@user.Id" />
+                                <button type="submit"
+                                        style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:1rem;"
+                                        onmouseover="this.style.color='#3b82f6'"
+                                        onmouseout="this.style.color='#94a3b8'">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                            </form>
+                                
+
+
+
+
+
+                            <form asp-action="KullaniciSilme" asp-controller="Admin" method="post">
+                                <input type="hidden" name="id" value="@user.Id"/>
+                                <button type="submit" style="background:none;border:none;color:#94a3b8;cursor:pointer;font-size:1rem;"
+                                        onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#94a3b8'"
+                                        onclick="return confirm('Bu kullanıcıyı silmek istediğinizden emin misiniz?')">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+                            </form>
+                                
+                          
+
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+@if (Model.SelectedUserforUptade?.Id > 0) { 
+    <script>
+        document.getElementById('updateResidentModal').style.display = 'flex';
+    </script>
+}

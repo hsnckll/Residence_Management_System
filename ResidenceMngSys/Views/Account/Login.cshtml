@@ -1,0 +1,89 @@
+﻿@model ResidenceMngSys.Models.UserViewModel
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezidans - Rezidans Yönetim Sistemi | Giriş</title>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/login.css">
+</head>
+
+<body class="login-layout">
+
+    <!-- Background Decorative Shapes -->
+    <div class="bg-shape shape1"></div>
+    <div class="bg-shape shape2"></div>
+
+    <div class="login-container">
+        <div class="logo-area">
+            <div class="logo-icon">
+                <i class="fa-solid fa-building"></i>
+            </div>
+            <h1>Yönetim Paneli</h1>
+            <p>Rezidans Yönetim Sistemine Hoş Geldiniz</p>
+        </div>
+        @if (TempData["Error"] != null)
+        {
+            <div class="login-alert-error">
+                <i class="fa-solid fa-circle-exclamation"></i> @TempData["Error"]
+            </div>
+        }
+        <form class="login-form" method="post" asp-controller="Account" asp-action="Login">
+            <div class="input-group">
+                <label for="role">Giriş Türü</label>
+                <div class="input-wrapper select-wrapper">
+                    <select id="role" name="role">
+                        <option value="admin">Yönetici Girişi</option>
+                        <option value="resident">Ev Sakini Girişi</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="username">E-posta veya TC Kimlik</label>
+                <div class="input-wrapper">
+                    <i class="fa-regular fa-user"></i>
+                    <input type="text" id="username" name="username" placeholder="Kullanıcı adınızı girin" required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="password">Şifre</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="password" name="password" placeholder="Şifrenizi girin" required>
+                </div>
+            </div>
+
+            <div class="error-message" id="errorMessage">
+                Kullanıcı adı veya şifre hatalı!
+            </div>
+
+            <button type="submit" class="login-btn">
+                <span>Giriş Yap</span>
+                <i class="fa-solid fa-arrow-right-to-bracket"></i>
+            </button>
+        </form>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,112 @@
+﻿@{
+    ViewData["Title"] = "Yeni Aidat Oluştur";
+    ViewData["ActiveMenu"] = "dues";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@model ResidenceMngSys.Models.UserViewModel
+
+@{
+    var aidat = Model.duzenlenmekIstenenAidat.FirstOrDefault();
+}
+
+<div class="cd-page-header">
+    <div class="cd-page-header-left">
+        <link rel="stylesheet" href="~/css/aidatolusturma.css" />
+        <h1 class="cd-page-title">Seçili Aidatı Düzenle</h1>
+        <p class="cd-page-desc">Seçtiğiniz dairenin aidatı düzenlenecektir.</p>
+    </div>
+    <a asp-action="Dues" asp-controller="Admin" class="cd-back-btn">
+        <i class="fa-solid fa-arrow-left"></i>
+        Geri Dön
+    </a>
+</div>
+
+
+
+<form asp-controller="Admin" asp-action="aidatDuzenlemePost" method="post">
+    
+   <div class="cd-card">
+
+        <input type="hidden" name="yil" value="@aidat.Year"/>
+        <input type="hidden" name="ay" value="@aidat.Months"/>
+        <input type="hidden" name="id" value="@aidat.Id"/>
+
+        <!-- Yıl -->
+        <div class="cd-card-row">
+            <div class="cd-row-label">
+                <span class="cd-label-text">Yıl</span>
+                <span class="cd-label-hint">Değiştirilemez</span>
+            </div>
+
+            <div class="cd-row-content">
+                <div class="cd-year-badge">
+                    <span class="cd-year-value">@aidat.Year</span>
+                    <span class="cd-year-sub">yılı</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Ay Seçin -->
+        <!-- Ay Seçin -->
+        <div class="cd-card-row">
+            <div class="cd-row-label">
+                <span class="cd-label-text">Ay</span>
+                <span class="cd-label-hint">Değiştirilemez</span>
+            </div>
+            <div class="cd-row-content">
+                <div class="cd-year-badge">
+                    <span class="cd-year-value">@aidat.Months</span>
+                    <span class="cd-year-sub">ayı</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aidat Tutarı -->
+        <div class="cd-card-row">
+            <div class="cd-row-label">
+                <span class="cd-label-text">Aidat Tutarı</span>
+                <span class="cd-label-hint">Türk Lirası (₺)</span>
+            </div>
+            <div class="cd-row-content">
+                <div class="cd-amount-wrapper">
+                    <span class="cd-currency-prefix">₺</span>
+                    <input class="cd-amount-input" type="number" name="DuesPrice" value="@aidat.DuesPrice">
+                </div>
+            </div>
+        </div>
+
+        <!-- Ödeme Aralığı -->
+        <div class="cd-card-row">
+            <div class="cd-row-label">
+                <span class="cd-label-text">Ödeme Aralığı</span>
+                <span class="cd-label-hint">Başlangıç ve son ödeme</span>
+            </div>
+            <div class="cd-row-content">
+                <div class="cd-date-row">
+                    <div class="cd-date-field">
+                        <span class="cd-date-label">Başlangıç</span>
+                        <input class="cd-date-input" type="date" name="PaymentStartDate" value="@aidat.PaymentStartDate.Value.ToString("yyyy-MM-dd")">
+                    </div>
+                    <div class="cd-date-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                    <div class="cd-date-field">
+                        <span class="cd-date-label">Son Ödeme</span>
+                        <input class="cd-date-input" type="date" name="PaymentEndDate" value="@aidat.PaymentEndDate.Value.ToString("yyyy-MM-dd")">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="cd-card-footer">
+            <a asp-action="Dues" asp-controller="Admin" class="cd-cancel-btn">İptal</a>
+            <button type="submit" class="cd-submit-btn">
+                <i class="fa-solid fa-pen"></i>
+                Aidatı Düzenle
+            </button>
+        </div>
+   </div>
+    
+</form>

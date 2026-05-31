@@ -1,0 +1,228 @@
+/* ============================================
+   OneriBildir Sayfası Stilleri
+   Tüm class'lar "oneri-" prefix'i ile başlar
+   admin.css ve styles.css ile çakışma olmaz
+   ============================================ */
+
+/* Animation for the page headers and forms */
+@keyframes slideUpFade {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* BODY */
+.oneri-card-body {
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 30px;
+}
+
+.oneri-form-left {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.oneri-form-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.oneri-form-right .h-100 {
+    flex: 1;
+}
+
+.oneri-form-right .oneri-form-textarea {
+    flex: 1;
+    min-height: 120px;
+}
+
+/* FORM GROUP */
+.oneri-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.oneri-form-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-main, #1e293b);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.oneri-optional-badge {
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--text-muted, #64748b);
+    background: #f1f5f9;
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: 20px;
+    padding: 2px 8px;
+}
+
+/* SELECT */
+.oneri-select-wrapper {
+    position: relative;
+}
+
+.oneri-form-select {
+    width: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    background: #f8fafc;
+    border: 1.5px solid var(--border-color, #e2e8f0);
+    border-radius: 10px;
+    padding: 12px 40px 12px 14px;
+    font-size: 0.9rem;
+    color: var(--text-main, #1e293b);
+    cursor: pointer;
+    outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+    .oneri-form-select:focus {
+        border-color: var(--primary-color, #1a4fc4);
+        box-shadow: 0 0 0 3px rgba(26,79,196,.12);
+    }
+
+.oneri-select-arrow {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    color: var(--text-muted, #64748b);
+    pointer-events: none;
+}
+
+/* TEXTAREA */
+.oneri-form-textarea {
+    width: 100%;
+    background: #f8fafc;
+    border: 1.5px solid var(--border-color, #e2e8f0);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 0.9rem;
+    color: var(--text-main, #1e293b);
+    resize: vertical;
+    min-height: 120px;
+    outline: none;
+    line-height: 1.6;
+    transition: border-color .2s ease, box-shadow .2s ease;
+    font-family: inherit;
+}
+
+    .oneri-form-textarea:focus {
+        border-color: var(--primary-color, #1a4fc4);
+        box-shadow: 0 0 0 3px rgba(26,79,196,.12);
+    }
+
+    .oneri-form-textarea::placeholder {
+        color: #94a3b8;
+    }
+
+.oneri-form-hint {
+    font-size: 0.78rem;
+    color: #94a3b8;
+}
+
+/* FILE INPUT */
+.oneri-file-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1.5px solid var(--border-color, #e2e8f0);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color .2s ease;
+    background-color: #f8fafc;
+    cursor: pointer;
+}
+
+    .oneri-file-input:focus {
+        border-color: var(--primary-color, #1a4fc4);
+    }
+
+/* FOOTER */
+.oneri-card-footer {
+    padding: 0 30px 24px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+/* BUTTONS */
+.oneri-btn {
+    width: auto;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+    text-decoration: none;
+    font-family: inherit;
+}
+
+    .oneri-btn svg {
+        width: 17px;
+        height: 17px;
+    }
+
+.oneri-btn-primary {
+    background: var(--primary-color, #1a4fc4);
+    color: #fff;
+    box-shadow: 0 2px 12px rgba(26,79,196,.25);
+}
+
+    .oneri-btn-primary:hover {
+        background: var(--primary-hover, #153daa);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 16px rgba(26,79,196,.3);
+        color: #fff;
+    }
+
+.oneri-btn-secondary {
+    background: transparent;
+    color: var(--text-muted, #64748b);
+    border: 1.5px solid var(--border-color, #e2e8f0);
+}
+
+    .oneri-btn-secondary:hover {
+        background: #f1f5f9;
+        color: var(--text-main, #1e293b);
+    }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .oneri-card-body {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .oneri-card-footer {
+        flex-direction: column;
+    }
+
+    .oneri-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

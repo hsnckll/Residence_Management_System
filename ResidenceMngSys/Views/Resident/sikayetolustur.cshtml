@@ -1,0 +1,86 @@
+@{
+    ViewData["Title"] = "Şikayet Bildir";
+    ViewData["ActiveMenu"] = "sikayet";
+    Layout = "~/Views/Shared/_ResidentLayout.cshtml";
+}
+
+@model ResidenceMngSys.Models.UserViewModel
+
+<link rel="stylesheet" href="/css/sikayet.css" asp-append-version="true" />
+
+<div style="margin-bottom: 2rem; display: flex; align-items: center; gap: 1rem; animation: slideUpFade 0.3s ease-out forwards;">
+    <div style="width: 48px; height: 48px; background: #fee2e2; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #dc2626; flex-shrink: 0;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+            <line x1="12" y1="9" x2="12" y2="13" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+        </svg>
+    </div>
+    <div>
+        <h2 class="section-title" style="margin-bottom: 0.25rem; font-size: 1.5rem; font-weight: 700; color: #0f172a;">Şikayet Bildir</h2>
+        <p style="color: #64748b; font-size: 0.95rem; margin: 0;">Şikayetinizi aşağıdaki formu doldurarak iletebilirsiniz.</p>
+    </div>
+</div>
+
+<div style="background: white; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 2rem; margin-bottom: 2rem; animation: slideUpFade 0.4s ease-out forwards;">
+    <form asp-controller="Resident" asp-action="sikayetolusturpost" method="post" enctype="multipart/form-data">
+        <div class="oneri-card-body">
+            
+            <div class="oneri-form-left">
+                <div class="oneri-form-group">
+                    <label class="oneri-form-label" for="Type">Şikayet Türü</label>
+                    <div class="oneri-select-wrapper">
+                        <select class="oneri-form-select" name="konu">
+                            <option value="" disabled selected>Bir tür seçin...</option>
+                            <option value="Gürültü">Gürültü</option>
+                            <option value="Temizlik">Temizlik</option>
+                            <option value="Güvenlik">Güvenlik</option>
+                            <option value="Teknik Arıza">Teknik Arıza</option>
+                            <option value="Komşu">Komşu Şikayeti</option>
+                            <option value="Diğer">Diğer</option>
+                        </select>
+                        <svg class="oneri-select-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <polyline points="6 9 12 15 18 9" />
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="oneri-form-group">
+                    <label class="oneri-form-label">
+                        Şikayet Görseli
+                        <span class="oneri-optional-badge">İsteğe Bağlı</span>
+                    </label>
+                    <input type="file" name="ImagePath" class="oneri-file-input">
+                </div>
+            </div>
+
+            <div class="oneri-form-right">
+                <div class="oneri-form-group h-100">
+                    <label class="oneri-form-label" for="Details">Şikayet Detayı</label>
+                    <textarea class="oneri-form-textarea"
+                              id="Details"
+                              name="icerik"
+                              placeholder="Şikayetinizi açık ve anlaşılır bir şekilde yazınız..."></textarea>
+                    <span class="oneri-form-hint">En fazla 350 karakter</span>
+                </div>
+            </div>
+
+            <input type="hidden" name="Status">
+            <input type="hidden" name="id" value="@Model.apartment.Id">
+
+        </div>
+
+        <div class="oneri-card-footer" style="padding: 0; margin-top: 2rem; border-top: 1px solid #f1f5f9; padding-top: 1.5rem;">
+            <a href="/Resident/Sikayet" class="oneri-btn oneri-btn-secondary">
+                İptal Et
+            </a>
+            <button type="submit" class="oneri-btn" style="background: #dc2626; color: white; transition: background .2s ease; border: none; box-shadow: 0 2px 12px rgba(220,38,38,.25);" onmouseover="this.style.background='#b91c1c'" onmouseout="this.style.background='#dc2626'">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13" />
+                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                </svg>
+                Şikayeti Gönder
+            </button>
+        </div>
+    </form>
+</div>

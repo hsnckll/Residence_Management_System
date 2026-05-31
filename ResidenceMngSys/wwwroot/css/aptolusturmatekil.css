@@ -1,0 +1,461 @@
+﻿/* =============================================
+   aptolusturmatekil.css
+   Mevcut ResiEase temasıyla uyumlu, scroll-free layout
+   ============================================= */
+
+:root {
+    --primary: #5A58F2;
+    --primary-light: #EEEDFE;
+    --primary-dark: #3C3489;
+    --bg-page: #F8FAFC;
+    --bg-card: #FFFFFF;
+    --bg-input: #F8FAFC;
+    --border: #E2E8F0;
+    --border-focus: #5A58F2;
+    --text-main: #1E293B;
+    --text-sub: #64748B;
+    --text-hint: #94A3B8;
+    --green-bg: #F0FDF4;
+    --green-text: #15803D;
+    --green-dot: #22C55E;
+    --yellow-bg: #FEFCE8;
+    --yellow-border: #FDE047;
+    --yellow-text: #854D0E;
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 18px;
+    --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+}
+
+/* ── Wrapper ── */
+.apt-wrapper {
+    /* content-area zaten padding: 2rem veriyor, biz sıfırlıyoruz */
+    margin: -2rem;
+    padding: 24px;
+    background: var(--bg-color); /* admin layout'un bg rengiyle eş */
+    box-sizing: border-box;
+    /* content-area'nın tüm yüksekliğini kullan */
+    min-height: calc(100vh - 60px); /* 60px = top-header yüksekliği */
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Başlık ── */
+.apt-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.apt-header-icon {
+    width: 42px;
+    height: 42px;
+    background: var(--primary-light);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.apt-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.apt-subtitle {
+    font-size: 13px;
+    color: var(--text-sub);
+    margin: 3px 0 0;
+}
+
+/* ── Ana Grid ── */
+.apt-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 20px;
+    align-items: stretch;
+    flex: 1;
+}
+
+.apt-form-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+    /* Sol iki kart eşit yükseklikte büyüsün */
+    .apt-form-col .apt-card {
+        flex: 1;
+    }
+
+/* ── Kart ── */
+.apt-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 22px 24px;
+    box-shadow: var(--shadow-card);
+    position: relative;
+}
+
+.apt-card-num {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    font-size: 36px;
+    font-weight: 800;
+    color: #F1F5F9;
+    line-height: 1;
+    user-select: none;
+}
+
+.apt-card-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0 0 18px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    position: relative;
+    z-index: 1;
+}
+
+    .apt-card-title i {
+        color: var(--primary);
+        font-size: 14px;
+    }
+
+/* ── Alan ── */
+.apt-field {
+    margin-bottom: 14px;
+}
+
+    .apt-field:last-child {
+        margin-bottom: 0;
+    }
+
+    .apt-field > label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-sub);
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .apt-field > small {
+        display: block;
+        font-size: 11px;
+        color: var(--text-hint);
+        margin-top: 5px;
+    }
+
+/* ── Input ── */
+.apt-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-input);
+    font-size: 13px;
+    color: var(--text-main);
+    transition: border-color 0.15s, background 0.15s;
+    box-sizing: border-box;
+}
+
+    .apt-input:focus {
+        outline: none;
+        border-color: var(--border-focus);
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(90, 88, 242, 0.08);
+    }
+
+    .apt-input::placeholder {
+        color: var(--text-hint);
+    }
+
+/* ── Prefix ── */
+.apt-prefix-wrap {
+    position: relative;
+}
+
+.apt-prefix {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-sub);
+    pointer-events: none;
+}
+
+.apt-prefix-wrap .apt-input {
+    padding-left: 26px;
+}
+
+/* ── İki Kolon Satır ── */
+.apt-row2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+/* ── Stepper ── */
+.apt-stepper {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--bg-input);
+    height: 40px;
+}
+
+    .apt-stepper button {
+        width: 40px;
+        height: 40px;
+        border: none;
+        background: transparent;
+        color: var(--text-main);
+        font-size: 18px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.15s;
+        flex-shrink: 0;
+    }
+
+        .apt-stepper button:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+    .apt-stepper > span {
+        flex: 1;
+        text-align: center;
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text-main);
+        border-left: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+/* ── M2 Hero ── */
+.apt-m2-hero {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin-bottom: 10px;
+}
+
+    .apt-m2-hero > span {
+        font-size: 36px;
+        font-weight: 800;
+        color: var(--primary);
+        line-height: 1;
+    }
+
+    .apt-m2-hero > small {
+        font-size: 15px;
+        color: var(--text-sub);
+        font-weight: 600;
+    }
+
+/* ── Slider ── */
+.apt-slider {
+    width: 100%;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.apt-slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-hint);
+    margin-top: 4px;
+}
+
+/* ── Chip Seçici ── */
+.apt-chips {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.apt-chip {
+    cursor: pointer;
+}
+
+    .apt-chip input {
+        display: none;
+    }
+
+    .apt-chip > span {
+        display: block;
+        padding: 9px 6px;
+        text-align: center;
+        border: 1.5px solid var(--border);
+        border-radius: var(--radius-sm);
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-sub);
+        background: var(--bg-input);
+        transition: all 0.15s;
+    }
+
+    .apt-chip:hover > span {
+        border-color: var(--primary);
+        color: var(--primary);
+    }
+
+    .apt-chip input:checked + span {
+        background: var(--primary-light);
+        color: var(--primary-dark);
+        border-color: var(--primary);
+    }
+
+/* ── Sidebar ── */
+.apt-sidebar {
+    display: flex;
+    flex-direction: column;
+}
+
+.apt-summary-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+    .apt-summary-card .apt-info-note {
+        margin-top: auto;
+    }
+
+/* ── Özet Liste ── */
+.apt-summary-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+    border-top: 1px solid var(--border);
+    padding-top: 4px;
+}
+
+    .apt-summary-list li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px dashed var(--border);
+        font-size: 13px;
+    }
+
+        .apt-summary-list li > span {
+            color: var(--text-sub);
+        }
+
+        .apt-summary-list li > strong {
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+            .apt-summary-list li > strong.empty-val {
+                color: var(--text-hint);
+                font-weight: 400;
+            }
+
+/* ── Durum Badge ── */
+.apt-status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--green-bg);
+    color: var(--green-text);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.apt-status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green-dot);
+    flex-shrink: 0;
+}
+
+/* ── Info Notu ── */
+.apt-info-note {
+    background: var(--yellow-bg);
+    border: 1px solid var(--yellow-border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 12px;
+    color: var(--yellow-text);
+    line-height: 1.6;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+    .apt-info-note i {
+        flex-shrink: 0;
+        margin-top: 1px;
+        font-size: 13px;
+    }
+
+/* ── Kaydet Butonu ── */
+.apt-btn-save {
+    width: 100%;
+    margin-top: 16px;
+    padding: 13px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+    box-shadow: 0 4px 14px rgba(90, 88, 242, 0.25);
+}
+
+    .apt-btn-save:hover {
+        background: var(--primary-dark);
+        box-shadow: 0 6px 20px rgba(90, 88, 242, 0.35);
+        transform: translateY(-1px);
+    }
+
+    .apt-btn-save:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(90, 88, 242, 0.2);
+    }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+    .apt-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .apt-sidebar {
+        position: static;
+    }
+}

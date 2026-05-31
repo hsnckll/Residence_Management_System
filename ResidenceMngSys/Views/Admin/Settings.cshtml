@@ -1,0 +1,148 @@
+﻿@{
+    ViewData["Title"] = "Ayarlar";
+    ViewData["ActiveMenu"] = "settings";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@model ResidenceMngSys.Models.UserViewModel
+
+<div style="margin-bottom: 2rem;">
+    <h2 class="section-title" style="margin-bottom: 0.25rem;">Ayarlar</h2>
+    <p style="color: #64748b; font-size: 0.95rem;">Apartman ve ödeme bilgilerini düzenleyin.</p>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 1.5rem; max-width: 800px;">
+    <form asp-action="genelAyarlarDuzenleme" asp-controller="Admin" method="post">
+        <input type="hidden" name="genelId" value="@(Model.generalSettings?.Id ?? null)" />
+        <input type="hidden" name="PaymentsId" value="@(Model.paymentsInfo?.Id ?? null)" />
+
+        <div style="background: white; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="width: 40px; height: 40px; border-radius: 0.75rem; background: #eff6ff; color: #3b82f6; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                    <i class="fa-solid fa-building"></i>
+                </div>
+                <h3 style="font-size: 1.1rem; font-weight: 600; color: #0f172a; margin: 0;">
+                    Apartman Bilgileri
+                </h3>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <label style="font-size: 0.9rem; font-weight: 500; color: #475569;">Apartman Adı</label>
+                <input type="text" name="apartmanadi"  value="@Model.tenant.Name"  placeholder="Apartman adı yok"
+                       style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.95rem; color: #334155; outline: none; transition: border-color 0.2s;"
+                       onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='#cbd5e1'">
+            </div>
+        </div>
+
+        <!-- Payment Info Card -->
+        <div style="background: white; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 2rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                <div style="width: 40px; height: 40px; border-radius: 0.75rem; background: #dcfce7; color: #16a34a; display: flex; align-items: center; justify-content: center; font-size: 1.1rem;">
+                    <i class="fa-regular fa-credit-card"></i>
+                </div>
+                <h3 style="font-size: 1.1rem; font-weight: 600; color: #0f172a; margin: 0;">
+                    Ödeme Bilgileri
+                </h3>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <!-- Input: IBAN -->
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <label style="font-size: 0.9rem; font-weight: 500; color: #475569;">
+                        IBAN Numarası
+                    </label>
+                    <input type="text"
+                           name="ıban"
+                           id="ibanInput"
+                           value="@Model.paymentsInfo?.IbanNumber"
+                           placeholder="TR00 0000 0000 0000 0000 0000 00"
+                           maxlength="32"
+                           style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.95rem; color: #334155; font-family: monospace; outline: none; transition: border-color 0.2s;"
+                           onfocus="this.style.borderColor='#3b82f6'"
+                           onblur="this.style.borderColor='#cbd5e1'">
+                    <span style="font-size: 0.8rem; color: #94a3b8;">Örn: TR00 0000 0000 0000 0000 0000 00</span>
+                </div>
+
+                <!-- Input: Hesap Sahibi -->
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <label style="font-size: 0.9rem; font-weight: 500; color: #475569;">Hesap Sahibi</label>
+                    <input type="text" name="accountHolder" value="@Model.paymentsInfo?.AccountHolder" placeholder="Kart Sahibinin Ad - Soyad Giriniz"
+                           style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.95rem; color: #334155; outline: none; transition: border-color 0.2s;"
+                           onfocus="this.style.borderColor='#3b82f6'"
+                           onblur="this.style.borderColor='#cbd5e1'">
+                </div>
+
+                <!-- Input: Banka Adı -->
+                <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <label style="font-size: 0.9rem; font-weight: 500; color: #475569;">Banka Adı</label>
+                    <input type="text" name="bankName" value="@Model.paymentsInfo?.BankName" placeholder="Banka Adı Giriniz"
+                           style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #cbd5e1; border-radius: 0.5rem; font-size: 0.95rem; color: #334155; outline: none; transition: border-color 0.2s;"
+                           onfocus="this.style.borderColor='#3b82f6'"
+                           onblur="this.style.borderColor='#cbd5e1'">
+                </div>
+
+                <!-- Preview Box -->
+                <div style="margin-top: 1rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem;">
+                    <div style="color: #94a3b8; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem;">
+                        SAKİNLERE GÖRÜNECEK ÖDEME BİLGİSİ
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: #64748b; font-size: 0.95rem;">Banka:</span>
+                            <span style="color: #334155; font-size: 0.95rem; font-weight: 500;">
+                                @Model.paymentsInfo?.BankName
+                            </span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: #64748b; font-size: 0.95rem;">Hesap Sahibi:</span>
+                            <span style="color: #334155; font-size: 0.95rem; font-weight: 500;">
+                                @Model.paymentsInfo?.AccountHolder
+                            </span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: #64748b; font-size: 0.95rem;">IBAN:</span>
+                            <span style="color: #334155; font-size: 0.95rem; font-weight: 500; font-family: monospace;">
+                                @Model.paymentsInfo?.IbanNumber
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Save Action -->
+        <div style="margin-top: 0.5rem;">
+            <button type="submit" style="background: #2563eb; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 500; font-size: 0.95rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; transition: background 0.2s; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);"
+                    onmouseover="this.style.background='#1d4ed8'" onmouseout="this.style.background='#2563eb'">
+                <i class="fa-regular fa-floppy-disk"></i> Kaydet
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+    document.getElementById('ibanInput').addEventListener('input', function (e) {
+    // Sadece harf ve rakam al, boşlukları temizle
+    let val = this.value.replace(/\s/g, '').toUpperCase();
+
+    // TR ile başlamıyorsa otomatik ekle
+    if (!val.startsWith('TR')) {
+        val = 'TR' + val.replace(/[^0-9]/g, '');
+    } else {
+        // TR'den sonrası sadece rakam olsun
+        val = 'TR' + val.slice(2).replace(/[^0-9]/g, '');
+    }
+
+    // Max 26 karakter (TR + 24 rakam)
+    val = val.slice(0, 26);
+
+    // Her 4 karakterde bir boşluk ekle
+    let formatted = '';
+    for (let i = 0; i < val.length; i++) {
+        if (i > 0 && i % 4 === 0) formatted += ' ';
+        formatted += val[i];
+    }
+
+    this.value = formatted;
+});
+</script>

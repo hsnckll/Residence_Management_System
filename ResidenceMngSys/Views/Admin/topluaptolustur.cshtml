@@ -1,0 +1,254 @@
+﻿@{
+    ViewData["Title"] = "Toplu Daire Ekle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/aptolusturmatoplu.css" />
+
+<div class="bulk-wrapper">
+
+    <!-- BAŞLIK -->
+    <div class="bulk-header">
+        <div class="bulk-header-icon">
+            <i class="fas fa-th-large"></i>
+        </div>
+        <div>
+            <h1 class="bulk-title">Toplu Daire Tanımla</h1>
+            <p class="bulk-subtitle">Bina yapısını belirleyin, daireler otomatik oluşturulsun.</p>
+        </div>
+    </div>
+
+    <form asp-action="topluapartmanolusturma" asp-controller="Admin" method="post">
+        <div class="bulk-grid">
+
+            <!-- SOL KOLON: AYARLAR -->
+            <div class="bulk-settings-col">
+
+                <!-- KART 01: BİNA YAPISI -->
+                <div class="bulk-card">
+                    <span class="bulk-card-num">01</span>
+                    <h2 class="bulk-card-title">
+                        <i class="fas fa-building"></i> Bina Yapısı
+                    </h2>
+
+                    <div class="bulk-field">
+                        <label>Blok / Bina Adı</label>
+                        <input type="text" name="Blok" id="inp-blok" placeholder="Örn: A Blok"
+                               class="bulk-input" oninput="bulkGenerate()">
+                        <small>Tek bina ise boş bırakabilirsiniz.</small>
+                    </div>
+
+                    <div class="bulk-row2">
+                        <div class="bulk-field">
+                            <label>Kat Sayısı</label>
+                            <div class="bulk-stepper">
+                                <button type="button" onclick="bulkStep('kat', -1)">−</button>
+                                <span id="kat-display">3</span>
+                                <button type="button" onclick="bulkStep('kat', 1)">+</button>
+                                <input type="hidden" name="KatSayisi" id="kat-val" value="3">
+                            </div>
+                        </div>
+                        <div class="bulk-field">
+                            <label>Kat Başına Daire</label>
+                            <div class="bulk-stepper">
+                                <button type="button" onclick="bulkStep('daire', -1)">−</button>
+                                <span id="daire-display">4</span>
+                                <button type="button" onclick="bulkStep('daire', 1)">+</button>
+                                <input type="hidden" name="DairePerKat" id="daire-val" value="4">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bulk-row2">
+                        <div class="bulk-field">
+                            <label>Başlangıç Katı</label>
+                            <div class="bulk-stepper">
+                                <button type="button" onclick="bulkStep('baslangic', -1)">−</button>
+                                <span id="baslangic-display">1</span>
+                                <button type="button" onclick="bulkStep('baslangic', 1)">+</button>
+                                <input type="hidden" name="BaslangicKat" id="baslangic-val" value="1">
+                            </div>
+                            <small>0 = zemin kat</small>
+                        </div>
+                        <div class="bulk-field">
+                            <input type="hidden" name="NumStyle" value="seq">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KART 02: VARSAYILAN DAİRE AYARLARI -->
+                <div class="bulk-card">
+                    <span class="bulk-card-num">02</span>
+                    <h2 class="bulk-card-title">
+                        <i class="fas fa-expand-arrows-alt"></i> Varsayılan Daire Ayarları
+                    </h2>
+
+                    <div class="bulk-field">
+                        <label>Metrekare</label>
+                        <div class="bulk-m2-hero">
+                            <span id="m2-display">80</span>
+                            <small>m²</small>
+                        </div>
+                        <input type="range" name="Metrekare" min="20" max="500" value="80" step="5"
+                               class="bulk-slider" oninput="bulkUpdateM2(this.value)">
+                        <div class="bulk-slider-labels">
+                            <span>20 m²</span><span>500 m²</span>
+                        </div>
+                    </div>
+
+                    <div class="bulk-field">
+                        <label>Daire Tipi</label>
+                        <div class="bulk-chips">
+                            <label class="bulk-chip">
+                                <input type="radio" name="Tip" value="1+1" onchange="bulkGenerate()">
+                                <span>1+1</span>
+                            </label>
+                            <label class="bulk-chip">
+                                <input type="radio" name="Tip" value="2+1" onchange="bulkGenerate()">
+                                <span>2+1</span>
+                            </label>
+                            <label class="bulk-chip">
+                                <input type="radio" name="Tip" value="3+1" checked onchange="bulkGenerate()">
+                                <span>3+1</span>
+                            </label>
+                            <label class="bulk-chip">
+                                <input type="radio" name="Tip" value="4+1" onchange="bulkGenerate()">
+                                <span>4+1</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+            <!-- SAĞ KOLON: ÖNİZLEME -->
+            <div class="bulk-preview-col">
+                <div class="bulk-card bulk-preview-card">
+
+                    <!-- Önizleme Başlık -->
+                    <div class="bulk-preview-header">
+                        <h2 class="bulk-card-title" style="margin:0">
+                            <i class="fas fa-eye"></i> Önizleme
+                        </h2>
+                        <div class="bulk-preview-summary">
+                            <span id="prev-total-badge">12 daire</span>
+                            <span class="bulk-dot"></span>
+                            <span id="prev-blok-badge">—</span>
+                            <span class="bulk-dot"></span>
+                            <span id="prev-m2-badge">80 m²</span>
+                            <span class="bulk-dot"></span>
+                            <span id="prev-tip-badge">3+1</span>
+                        </div>
+                    </div>
+
+                    <!-- Kat Listesi -->
+                    <div class="bulk-floors" id="bulk-floors-container"></div>
+
+                    <!-- Alt: Kaydet -->
+                    <div class="bulk-preview-footer">
+                        <div class="bulk-info-note">
+                            <i class="fas fa-info-circle"></i>
+                            Tüm daireler "Boş" olarak eklenir. Detaylar daha sonra düzenlenebilir.
+                        </div>
+
+                        <button type="submit" class="bulk-btn-save">
+                            <i class="fas fa-check-circle"></i>
+                            <span id="btn-save-label">12 Daireyi Kaydet</span>
+                        </button>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </form>
+    
+</div>
+
+<script>
+    var bulkKat = 3;
+    var bulkDaire = 4;
+    var bulkBaslangic = 1;
+    var bulkM2 = 80;
+
+    function bulkStep(key, d) {
+        if (key === 'kat') {
+            bulkKat = Math.max(1, bulkKat + d);
+            document.getElementById('kat-display').innerText = bulkKat;
+            document.getElementById('kat-val').value = bulkKat;
+        } else if (key === 'daire') {
+            bulkDaire = Math.max(1, bulkDaire + d);
+            document.getElementById('daire-display').innerText = bulkDaire;
+            document.getElementById('daire-val').value = bulkDaire;
+        } else if (key === 'baslangic') {
+            bulkBaslangic = Math.max(0, bulkBaslangic + d);
+            document.getElementById('baslangic-display').innerText = bulkBaslangic;
+            document.getElementById('baslangic-val').value = bulkBaslangic;
+        }
+        bulkGenerate();
+    }
+
+    function bulkUpdateM2(v) {
+        bulkM2 = v;
+        document.getElementById('m2-display').innerText = v;
+        document.getElementById('prev-m2-badge').innerText = v + ' m²';
+        bulkGenerate();
+    }
+
+    function getTip() {
+        var sel = document.querySelector('input[name="Tip"]:checked');
+        return sel ? sel.value : '3+1';
+    }
+
+    function bulkGenerate() {
+        var blok = document.getElementById('inp-blok').value.trim();
+        var tip = getTip();
+        var toplam = bulkKat * bulkDaire;
+
+        document.getElementById('prev-blok-badge').innerText = blok || '—';
+        document.getElementById('prev-tip-badge').innerText = tip;
+        document.getElementById('prev-total-badge').innerText = toplam + ' daire';
+        document.getElementById('btn-save-label').innerText = toplam + ' Daireyi Kaydet';
+
+        var container = document.getElementById('bulk-floors-container');
+        container.innerHTML = '';
+
+        var seqNo = 1;
+
+        for (var k = 0; k < bulkKat; k++) {
+            var katNo = bulkBaslangic + k;
+            var floorDiv = document.createElement('div');
+            floorDiv.className = 'bulk-floor';
+
+            var labelDiv = document.createElement('div');
+            labelDiv.className = 'bulk-floor-label';
+            labelDiv.innerHTML = '<span class="bulk-floor-badge">' + katNo + '. Kat</span>' +
+                '<span class="bulk-floor-count">' + bulkDaire + ' daire</span>';
+            floorDiv.appendChild(labelDiv);
+
+            var rowDiv = document.createElement('div');
+            rowDiv.className = 'bulk-floor-row';
+
+            for (var d = 1; d <= bulkDaire; d++) {
+                var pill = document.createElement('div');
+                pill.className = 'bulk-daire-pill';
+                pill.innerHTML =
+                    '<span class="pill-no">' + seqNo + '</span>' +
+                    '<span class="pill-detail">' + bulkM2 + ' m² · ' + tip + '</span>';
+                rowDiv.appendChild(pill);
+                seqNo++;
+            }
+
+            floorDiv.appendChild(rowDiv);
+            container.appendChild(floorDiv);
+        }
+    }
+
+   
+
+    bulkGenerate();
+</script>

@@ -1,0 +1,136 @@
+﻿@{
+    ViewData["Title"] = "Yeni Aidat Oluştur";
+    ViewData["ActiveMenu"] = "dues";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var suankiYil = DateTime.Now.Year;
+}
+@model ResidenceMngSys.Models.UserViewModel
+
+<link rel="stylesheet" href="~/css/aidatolusturma.css" />
+
+<!-- Page Header -->
+<div class="cd-page-header">
+    <div class="cd-page-header-left">
+        
+        <h1 class="cd-page-title">Yeni Aidat Oluştur</h1>
+        <p class="cd-page-desc">Tüm aktif dairelere otomatik olarak aidat oluşturulacaktır</p>
+    </div>
+    <a asp-action="Dues" asp-controller="Admin" class="cd-back-btn">
+        <i class="fa-solid fa-arrow-left"></i>
+        Geri Dön
+    </a>
+</div>
+
+<form asp-action="CreateDue" asp-controller="Admin" method="post">
+    <div class="cd-card">
+
+        <!-- Yıl -->
+        <div class="cd-card-row">
+            <div class="cd-row-label">
+                <span class="cd-label-text">Yıl</span>
+                <span class="cd-label-hint">Otomatik belirlenir</span>
+            </div>
+            @if (Model.hedefYıl == Model.dbdekiMaxYıl + 1)
+            {
+                <div class="cd-row-content">
+                    <div class="cd-year-badge">
+                        <span class="cd-year-value">@(Model.dbdekiMaxYıl + 1)</span>
+                        <span class="cd-year-sub">yılı</span>
+                    </div>
+                    <input type="hidden" name="year" value="@(Model.dbdekiMaxYıl + 1)" />
+                </div>
+            }
+            else
+            {
+                <div class="cd-row-content">
+                    <div class="cd-year-badge">
+                        <span class="cd-year-value">@suankiYil</span>
+                        <span class="cd-year-sub">yılı</span>
+                    </div>
+                    <input type="hidden" name="year" value="@suankiYil" />
+                </div>
+            }
+            
+
+        </div>
+
+        <!-- Ay Seçin -->
+        <div class="cd-card-row">
+            <div class="cd-row-label">
+                <span class="cd-label-text">Ay Seçin</span>
+                <span class="cd-label-hint">Tek ay seçilebilir</span>
+            </div>
+            <div class="cd-row-content">
+                @{
+                    var turkishMonths = new[] { "Ocak","Şubat","Mart","Nisan","Mayıs","Haziran",
+                                "Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık" };
+                    var existingMonths = ViewBag.ExistingMonths as List<string> ?? new List<string>();
+                }
+                <div class="cd-month-grid">
+                    @foreach (var month in turkishMonths)
+                    {
+                        var isExisting = existingMonths.Contains(month); // Değer var mı echistingmonths'da eğer varsa tik at seçtirme
+                        <label class="cd-month-btn @(isExisting ? "cd-month-used" : "")">
+                            <input type="radio" name="Months" value="@month"
+                                   @(isExisting ? "disabled" : "") hidden>
+                            @month
+                            @if (isExisting)
+                            {
+                                <i class="fa-solid fa-check cd-month-tick"></i>
+                            }
+                        </label>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Aidat Tutarı -->
+        <div class="cd-card-row">
+            <div class="cd-row-label">
+                <span class="cd-label-text">Aidat Tutarı</span>
+                <span class="cd-label-hint">Türk Lirası (₺)</span>
+            </div>
+            <div class="cd-row-content">
+                <div class="cd-amount-wrapper">
+                    <span class="cd-currency-prefix">₺</span>
+                    <input class="cd-amount-input" type="number" name="DuesPrice" placeholder="0">
+                </div>
+            </div>
+        </div>
+
+        <!-- Ödeme Aralığı -->
+        <div class="cd-card-row">
+            <div class="cd-row-label">
+                <span class="cd-label-text">Ödeme Aralığı</span>
+                <span class="cd-label-hint">Başlangıç ve son ödeme</span>
+            </div>
+            <div class="cd-row-content">
+                <div class="cd-date-row">
+                    <div class="cd-date-field">
+                        <span class="cd-date-label">Başlangıç</span>
+                        <input class="cd-date-input" type="date" name="PaymentStartDate">
+                    </div>
+                    <div class="cd-date-arrow">
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                    <div class="cd-date-field">
+                        <span class="cd-date-label">Son Ödeme</span>
+                        <input class="cd-date-input" type="date" name="PaymentEndDate">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="cd-card-footer">
+            <a asp-action="Dues" asp-controller="Admin" class="cd-cancel-btn">İptal</a>
+            <button type="submit" class="cd-submit-btn">
+                <i class="fa-solid fa-plus"></i>
+                Aidatı Oluştur
+            </button>
+        </div>
+
+    </div>
+</form>
+<!-- Form Card -->
+

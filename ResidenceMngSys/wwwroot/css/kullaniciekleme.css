@@ -1,0 +1,427 @@
+/* ============================================================
+   KULLANICI EKLEME - CSS (ke- öneki)
+   ============================================================ */
+
+/* SAYFA BAŞLIĞI */
+.ke-page-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.65rem;
+    /* Milimetrik daraltma */
+}
+
+.ke-back-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.ke-back-btn:hover {
+    background: #EFF6FF;
+    color: #2563EB;
+    border-color: #BFDBFE;
+    transform: translateX(-2px);
+}
+
+.ke-title {
+    font-size: 1.35rem;
+    /* İdeal başlık boyutu */
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0 0 2px;
+}
+
+.ke-subtitle {
+    font-size: 0.85rem;
+    /* İdeal alt başlık */
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* ============================================================
+   KART VE IZGARA YAPISI
+   ============================================================ */
+.ke-card {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-xl);
+    padding: 1.15rem 1.5rem;
+    /* Milimetrik daraltma */
+    box-shadow: var(--shadow-sm);
+    width: 100%;
+}
+
+.ke-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.ke-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.ke-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.ke-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.ke-card-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0 0 3px;
+}
+
+.ke-card-desc {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* ============================================================
+   FORM ALANLARI
+   ============================================================ */
+.ke-form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    /* Mikroskobik kısıldı */
+    margin-bottom: 0.9rem;
+    /* Mikroskobik kısıldı */
+    padding-bottom: 0.9rem;
+    /* Mikroskobik kısıldı */
+    border-bottom: 1px solid var(--border-color);
+}
+
+.ke-form-section-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.74rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+}
+
+.ke-form-section-label i {
+    font-size: 0.72rem;
+    color: #2563EB;
+}
+
+.ke-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ke-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.ke-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.ke-input-icon {
+    position: absolute;
+    left: 0.875rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    pointer-events: none;
+    transition: color 0.2s;
+}
+
+.ke-input {
+    width: 100%;
+    padding: 0.55rem 0.875rem 0.55rem 2.2rem;
+    /* Input boyutu mikroskobik daraltıldı */
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-color);
+    font-size: 0.875rem;
+    /* İdeal font */
+    color: var(--text-main);
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+}
+
+.ke-input:focus {
+    outline: none;
+    border-color: #2563EB;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.ke-input-wrap:focus-within .ke-input-icon {
+    color: #2563EB;
+}
+
+.ke-input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.6;
+}
+
+/* ============================================================
+   CUSTOM GRID SELECT
+   ============================================================ */
+.ke-custom-select {
+    cursor: pointer;
+    width: 100%;
+}
+
+.ke-custom-select .ke-input-icon {
+    z-index: 2;
+}
+
+.ke-custom-select-trigger {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.55rem 0.875rem 0.55rem 2.2rem;
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-md);
+    background: var(--bg-color);
+    font-size: 0.875rem;
+    color: var(--text-main);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    user-select: none;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.ke-custom-select.open .ke-custom-select-trigger {
+    border-color: #2563EB;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.ke-custom-select-text {
+    flex: 1;
+    color: var(--text-muted);
+    opacity: 0.8;
+}
+
+.ke-custom-select-text.selected {
+    color: var(--text-main);
+    opacity: 1;
+    font-weight: 500;
+}
+
+.ke-custom-select-arrow {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ke-custom-select.open .ke-custom-select-arrow {
+    transform: rotate(180deg);
+}
+
+.ke-custom-select-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: 100%;
+    background: var(--surface-color, #fff);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 100;
+    max-height: 220px;
+    overflow-y: auto;
+}
+
+.ke-custom-select.open .ke-custom-select-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.ke-custom-select-options {
+    display: grid;
+    padding: 0.5rem;
+    gap: 0.35rem;
+}
+
+.ke-custom-select[data-type="block"] .ke-custom-select-options {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.ke-custom-select[data-type="floor"] .ke-custom-select-options {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.ke-custom-select[data-type="apartment"] .ke-custom-select-options {
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.ke-custom-select[data-type="payment"] .ke-custom-select-options {
+    grid-template-columns: 1fr;
+}
+
+.ke-option {
+    padding: 0.6rem 0.2rem;
+    text-align: center;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-main);
+    background: var(--bg-color, #f8fafc);
+    border: 1px solid transparent;
+    transition: all 0.15s ease;
+}
+
+.ke-custom-select[data-type="payment"] .ke-option {
+    text-align: left;
+    padding: 0.6rem 1rem;
+}
+
+.ke-option:hover {
+    background: #EFF6FF;
+    color: #2563EB;
+    border-color: #BFDBFE;
+    transform: translateY(-1px);
+}
+
+.ke-option.active {
+    background: #2563EB;
+    color: #fff;
+    border-color: #2563EB;
+    box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+}
+
+.ke-hidden-input {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    pointer-events: none;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    border: none;
+}
+
+.ke-custom-select-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+
+.ke-custom-select-dropdown::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 4px 0;
+}
+
+.ke-custom-select-dropdown::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 10px;
+}
+
+.ke-custom-select-dropdown::-webkit-scrollbar-thumb:hover {
+    background: #94A3B8;
+}
+
+/* ============================================================
+   BUTONLAR
+   ============================================================ */
+.ke-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.8rem;
+    /* Mikroskobik kısıldı */
+    border-top: 1px solid var(--border-color);
+}
+
+.ke-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1.4rem;
+    /* Butonlar mikroskobik kısıldı */
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border: none;
+    font-family: inherit;
+}
+
+.ke-btn--ghost {
+    background: var(--surface-color);
+    color: var(--text-muted);
+    border: 1.5px solid var(--border-color);
+}
+
+.ke-btn--ghost:hover {
+    color: var(--text-main);
+    border-color: #CBD5E1;
+}
+
+.ke-btn--success {
+    background: #16A34A;
+    color: #fff;
+}
+
+.ke-btn--success:hover {
+    background: #15803D;
+    box-shadow: 0 4px 14px rgba(22, 163, 74, 0.3);
+    transform: translateY(-1px);
+}
+
+.ke-btn--success:active {
+    transform: translateY(0);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+
+    .ke-grid-3,
+    .ke-grid-2 {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+}

@@ -1,0 +1,132 @@
+﻿@model ResidenceMngSys.Models.UserViewModel
+@using Microsoft.AspNetCore.Http
+@inject ResidenceMngSys.Models.AppDbContext _db
+@inject ResidenceMngSys.Services.ITenantService _tenantService
+@{
+    ViewData["Title"] = "Sakin Paneli";
+    Layout = null;
+}
+
+
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"] - ResiEase</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/admin.css">
+    <link rel="stylesheet" href="~/css/styles.css">
+</head>
+
+
+<body class="admin-layout">
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <i class="fa-solid fa-building"></i>
+                <span>ResiEase</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a class="nav-item @(ViewData["ActiveMenu"]?.ToString() == "overview" ? "active" : "")"
+               asp-controller="Resident" asp-action="Index">
+                <i class="fa-solid fa-house-user"></i>
+                <span>Profilim</span>
+            </a>
+            <a class="nav-item @(ViewData["ActiveMenu"]?.ToString() == "payments" ? "active" : "")"
+               asp-controller="Resident" asp-action="Payments">
+                <i class="fa-solid fa-credit-card"></i>
+                <span>Aidat Öde</span>
+            </a>
+            <a class="nav-item @(ViewData["ActiveMenu"]?.ToString() == "parayatir" ? "active" : "")"
+               asp-controller="Resident" asp-action="ParaYatir">
+                <i class="fa-solid fa-wallet"></i>
+                <span>Bakiye Yükle</span>
+            </a>
+            <a class="nav-item @(ViewData["ActiveMenu"]?.ToString() == "duyuru" ? "active" : "")"
+               asp-controller="Resident" asp-action="Duyuru">
+                <i class="fa-solid fa-bullhorn"></i>
+                <span>Duyurular</span>
+            </a>
+
+
+            <details class="nav-item-dropdown" @(ViewData["ActiveMenu"]?.ToString() == "sikayet" || ViewData["ActiveMenu"]?.ToString() == "oneri" ? "open" : "")>
+                <summary class="nav-item">
+                    <div class="nav-item-content">
+                        <i class="fa-solid fa-comments"></i>
+                        <span>Şikayet ve Öneri</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down arrow"></i>
+                </summary>
+                <div class="nav-dropdown-menu">
+                    <a class="nav-item sub-item @(ViewData["ActiveMenu"]?.ToString() == "sikayet" ? "active" : "")"
+                       asp-controller="Resident" asp-action="Sikayet">
+                        <i class="fa-solid fa-circle-exclamation"></i>
+                        <span>Şikayetler</span>
+                    </a>
+                    <a class="nav-item sub-item @(ViewData["ActiveMenu"]?.ToString() == "oneri" ? "active" : "")"
+                       asp-controller="Resident" asp-action="Oneri">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <span>Öneriler</span>
+                    </a>
+                </div>
+            </details>
+
+
+
+        </nav>
+
+        <div class="sidebar-footer">
+            <a class="logout-btn" asp-controller="Account" asp-action="Logout">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                <span>Çıkış Yap</span>
+            </a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <header class="top-header">
+            @{
+                var tenant = _db.Tenants.FirstOrDefault(x => x.Id == _tenantService.GetTenantId());
+            }
+            <div class="header-left">
+                <div class="header-greeting">
+                    <span class="greeting-text">Hoş geldiniz,</span>
+                    <span class="greeting-name">@Model?.user.Name @Model?.user.Surname</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-apartment-badge">
+                    <i class="fa-solid fa-building"></i>
+                    <div class="apartment-badge-info">
+                        <span class="apartment-badge-name">@tenant?.Name</span>
+                        <span class="apartment-badge-location">@tenant?.Address</span>
+                    </div>
+                </div>
+                <div class="header-divider"></div>
+                <div class="header-user">
+                    <div class="user-info">
+                        <div class="user-name">@Model?.user.Name @Model?.user.Surname</div>
+                        <div class="user-role">@Model?.apartment.BlockNo Blok - @Model?.apartment.FloorNo .Kat - @Model?.apartment.ApartmentNo .Daire</div>
+                    </div>
+                    <div class="user-avatar" style="background: var(--info); color: white;">
+                        @Model?.user.Name[0]@Model?.user.Surname[0]
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="content-area">
+            @RenderBody()
+        </div>
+    </main>
+
+    <script src="~/js/resident.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

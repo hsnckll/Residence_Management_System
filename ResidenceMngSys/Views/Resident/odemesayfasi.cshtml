@@ -1,0 +1,58 @@
+@{
+    ViewData["Title"] = "ÖdemeYapma";
+    ViewData["ActiveMenu"] = "residents";
+    Layout = null;
+}
+
+@model ResidenceMngSys.Models.UserViewModel
+
+<div class="pay-wrap">
+    <div class="pay-card">
+        <h2 class="pay-title">Ödeme onayı</h2>
+        <link rel="stylesheet" href="~/css/admin.css">
+        <div class="info-block">
+            <div class="info-row">
+                <span>Dönem</span>
+                <span class="info-val">@Model.due.Months / @Model.due.Year</span>
+            </div>
+            <div class="info-row">
+                <span>Toplam borç</span>
+                <span class="info-val danger">@Model.due.DuesPrice.ToString("N2") ₺</span>
+            </div>
+            <div class="info-row">
+                <span>Kalan borç</span>
+                <span class="info-val info">@Model.due.RemainingDebt.ToString("N2") ₺</span>
+            </div>
+        </div>
+
+        <div class="wallet-block">
+            <i class="fa-solid fa-wallet fa-2x" style="color: #1565c0;"></i>
+            <div>
+                <p class="wallet-label">Cüzdan bakiyeniz</p>
+                <p class="wallet-amount">@Model.wallet.Balance.ToString("N2") ₺</p>
+            </div>
+        </div>
+
+        <div class="alert-warn">
+            Cüzdanınızda yeterli bakiye bulunmamaktadır. Lütfen önce bakiye yükleyin.
+        </div>
+        
+
+        <form asp-action="odemesayfasipost" method="post" asp-controller="Resident" > 
+            <input type="hidden" name="id" value="@Model.due.Id" />
+            <div class="amount-block">
+                <label class="amount-label" >Ödemek istediğiniz miktar</label>
+                <div class="amount-input-wrap">
+                    <input type="number" name="amount" min="1" step="1" max="@Model.due.RemainingDebt" placeholder="0" />
+                    <span class="amount-suffix">₺</span>
+                </div>
+                <p class="hint">En fazla @Model.due.RemainingDebt kadar ödeme yapabilirsiniz.</p>
+            </div>
+
+            <button class="pay-btn-primary">Ödemeyi onayla</button>
+        </form>
+        
+
+        <a href="/Resident/Payments" class="pay-btn-secondary">İptal et</a>
+    </div>
+</div>

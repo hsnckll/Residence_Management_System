@@ -1,0 +1,236 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Yeni Sakin Ekle";
+    ViewData["ActiveMenu"] = "residents";
+}
+
+
+@model ResidenceMngSys.Models.UserViewModel
+
+<link rel="stylesheet" href="~/css/kullaniciekleme.css" />
+<div class="ke-page-header">
+
+    <div>
+        <h1 class="ke-title">Sakin Bilgilerini Güncelle</h1>
+        <p class="ke-subtitle">Sistemdeki Mevcut Bilgileri Güncelleyin</p>
+    </div>
+</div>
+
+<!-- Konum Bilgileri-->
+<div class="ke-card">
+    <form asp-action="KullaniciGuncelleme" asp-controller="Admin" method="get">
+        <input type="hidden" name="id" value="@Model.guncellenecekKullanici.Id" />
+        <div class="ke-form-section">
+            <div class="ke-form-section-label" style="display:flex; align-items:center; justify-content:space-between;">
+                <span><i class="fa-solid fa-map-location-dot"></i> Konum Bilgileri</span>
+                @if (Model.guncellenecekKullanici.Apartment != null)
+{
+                    <div class="ke-form-section-label" style="display:flex; align-items:center; justify-content:space-between;">
+                    <span style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:20px; padding:3px 10px; font-size:12px; color:#1d4ed8;">
+                        <i class="fa-solid fa-building" style="margin-right:3px;"></i>@Model.guncellenecekKullanici.Apartment.BlockNo Blok
+                    </span>
+                    <span style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:20px; padding:3px 10px; font-size:12px; color:#1d4ed8;">
+                        <i class="fa-solid fa-layer-group" style="margin-right:3px;"></i>@Model.guncellenecekKullanici.Apartment.FloorNo. Kat
+                    </span>
+                    <span style="background:#eff6ff; border:1px solid #bfdbfe; border-radius:20px; padding:3px 10px; font-size:12px; color:#1d4ed8;">
+                        <i class="fa-solid fa-door-open" style="margin-right:3px;"></i>@Model.guncellenecekKullanici.Apartment.ApartmentNo. Daire
+                    </span>
+                    </div>
+                }
+                else
+                {
+                    <span style="font-size:12px; color:#94a3b8;">Henüz daire atanmamış</span>
+                }
+            </div>
+
+            <!-- Konum Bilgileri Başlığının yanına -->
+            
+            <!-- Blok - Kat - Daire Seçme -->
+            <div class="ke-grid-3">
+                <!-- Blok Seçme -->
+                @if (Model.ApartmanlarListesi != null && Model.ApartmanlarListesi.Any())
+                {
+                    <div class="ke-form-group">
+                        <label class="ke-label">Blok Seçimi</label>
+                        <div class="ke-input-wrap">
+                            <i class="fa-solid fa-building ke-input-icon"></i>
+                            <select name="BlokName" class="ke-input ke-select" onchange="this.form.submit()">
+                                <option value="">Blok Seçiniz</option>
+                                @foreach (var bloklar in Model.ApartmanlarListesi.Select(x => x.BlockNo).Distinct())
+                                {
+                                    if (Model.SelectedBlokName == bloklar)
+                                    {
+                                        <option value="@bloklar" selected>@bloklar Blok</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@bloklar">@bloklar Blok</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="ke-form-group">
+                        <label class="ke-label">Blok Seçimi</label>
+                        <p style="color: #94a3b8; font-size: 0.85rem;">Henüz daire oluşturulmamış.</p>
+                    </div>
+                }
+
+                <!-- Kat Seçme -->
+                <div class="ke-form-group">
+                    <label class="ke-label">Kat Seçimi</label>
+                    <div class="ke-input-wrap">
+                        <i class="fa-solid fa-layer-group ke-input-icon"></i>
+
+
+                        <select name="FloorNo" class="ke-input ke-select" onchange="this.form.submit()">
+                            <option value="">Kat Seçiniz</option>
+                            @foreach (var katlar in Model.BlogunKatları?.Select(x => x.FloorNo).Distinct())
+                            {
+                                
+                                    @if (Model.SelectedFloorNo == katlar)
+                                    {
+                                        <option value="@katlar" selected>@katlar .Kat</option>
+                                    }
+
+                                    else
+                                    {
+                                        <option value="@katlar">@katlar .Kat</option>
+
+                                    }
+                               
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Daire Seçme -->
+                <div class="ke-form-group">
+                    <label class="ke-label">Daire Seçimi</label>
+                    <div class="ke-input-wrap">
+                        <i class="fa-solid fa-door-open ke-input-icon"></i>
+                        <select name="ApartmentNo" class="ke-input ke-select" onchange="this.form.submit()">
+                            <option value="">Daire Seçiniz</option>
+                            @foreach (var daireler in Model.KatınDaireleri?.Where(x=>x.IsOccupied==0).Select(x => x.ApartmentNo).Distinct())
+                            {
+                                
+                                    @if (Model.SelectedApartmentNo == daireler)
+                                    {
+                                        <option value="@daireler" selected>@daireler .Daire</option>
+                                    }   
+                                    else
+                                    {
+                                        <option value="@daireler">@daireler .Daire</option>
+                                    }
+                                              
+                            }
+
+
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+        
+    <form asp-action="kullaniciguncellemepost" asp-controller="Admin" method="post">
+        <input type="hidden" name="BlokName" value="@Model.SelectedBlokName" />
+        <input type="hidden" name="FloorNo" value="@Model.SelectedFloorNo" />
+        <input type="hidden" name="ApartmentNo" value="@Model.SelectedApartmentNo" />
+        <input type="hidden" name="id" value="@Model.guncellenecekKullanici.Id" />
+
+        <div class="ke-form-section">
+            <div class="ke-form-section-label">
+                <i class="fa-solid fa-id-card"></i> Kişisel Bilgiler
+            </div>
+            <div class="ke-grid-2">
+                <div class="ke-form-group">
+                    <label class="ke-label">Ad</label>
+                    <div class="ke-input-wrap">
+                        <i class="fa-solid fa-user ke-input-icon"></i>
+                        <input type="text" name="Name" class="ke-input" value="@Model.guncellenecekKullanici.Name" required />
+                    </div>
+                </div>
+                <div class="ke-form-group">
+                    <label class="ke-label">Soyad</label>
+                    <div class="ke-input-wrap">
+                        <i class="fa-solid fa-user ke-input-icon"></i>
+                        <input type="text" name="Surname" class="ke-input" value="@Model.guncellenecekKullanici.Surname" required />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- İletişim Bilgileri (Yan yana 2'li) -->
+        <div class="ke-form-section">
+            <div class="ke-form-section-label">
+                <i class="fa-solid fa-address-book"></i> İletişim Bilgileri
+            </div>
+            <div class="ke-grid-2">
+                <div class="ke-form-group">
+                    <label class="ke-label">E-posta</label>
+                    <div class="ke-input-wrap">
+                        <i class="fa-solid fa-envelope ke-input-icon"></i>
+                        <input type="email" name="Mail" class="ke-input" value="@Model.guncellenecekKullanici.Mail" required />
+                    </div>
+                </div>
+                <div class="ke-form-group">
+                    <label class="ke-label">Telefon</label>
+                    <div class="ke-input-wrap">
+                        <i class="fa-solid fa-phone ke-input-icon"></i>
+                        <input type="tel" name="PhoneNumber" class="ke-input" value="@Model.guncellenecekKullanici.PhoneNumber" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hesap Ayarları (Yan yana 2'li) -->
+        <div class="ke-form-section" style="border:none; padding-bottom:0; margin-bottom:1.5rem;">
+            <div class="ke-form-section-label">
+                <i class="fa-solid fa-shield-halved"></i> Hesap Ayarları
+            </div>
+
+            <div class="ke-grid-2">
+                <div class="ke-form-group">
+                    <label class="ke-label">Şifre</label>
+                    <div class="ke-input-wrap">
+                        <i class="fa-solid fa-lock ke-input-icon"></i>
+                        <input type="text" name="Password" class="ke-input" value="@Model.guncellenecekKullanici.Password" required />
+                    </div>
+
+                </div>
+
+                <div class="ke-form-group">
+                    <label class="ke-label">Ödeme Yöntemi</label>
+                    <div class="ke-input-wrap">
+                        <i class="fa-solid fa-credit-card ke-input-icon"></i>
+                        <select name="PaymentPreference" class="ke-input ke-select" required>
+                            <option value="">Ödeme Yöntemi Seçiniz</option>
+                            <option value="Otomatik" selected="@(Model.guncellenecekKullanici.PaymentPreference == "Otomatik" ? "selected" : null)">Otomatik Ödeme</option>
+                            <option value="Manuel" selected="@(Model.guncellenecekKullanici.PaymentPreference == "Manuel" ? "selected" : null)">Manuel Ödeme</option>
+                        </select>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- İşlem Butonları -->
+        <div class="ke-actions">
+            <a href=/Admin/Residents class="ke-btn ke-btn--ghost">
+                <i class="fa-solid fa-xmark"></i> İptal
+            </a>
+            <button type="submit" class="ke-btn ke-btn--success">
+                <i class="fa-solid fa-user-pen"></i> Kullanıcıyı Güncelle
+            </button>
+        </div>
+    </form>
+        
+
+</div>

@@ -1,0 +1,579 @@
+﻿/* =============================================
+   aptolusturmatoplu.css
+   Toplu Daire Ekleme — ResiEase temasıyla uyumlu
+   ============================================= */
+
+:root {
+    --primary: #5A58F2;
+    --primary-light: #EEEDFE;
+    --primary-dark: #3C3489;
+    --bg-card: #FFFFFF;
+    --bg-input: #F8FAFC;
+    --border: #E2E8F0;
+    --border-focus: #5A58F2;
+    --text-main: #1E293B;
+    --text-sub: #64748B;
+    --text-hint: #94A3B8;
+    --yellow-bg: #FEFCE8;
+    --yellow-border: #FDE047;
+    --yellow-text: #854D0E;
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 18px;
+    --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+}
+
+/* ── Wrapper: tam ekran yüksekliği, flex kolon ── */
+.bulk-wrapper {
+    margin: -2rem;
+    padding: 24px;
+    box-sizing: border-box;
+    height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Başlık: sabit yükseklik, küçülmez ── */
+.bulk-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+    flex-shrink: 0;
+}
+
+.bulk-header-icon {
+    width: 42px;
+    height: 42px;
+    background: var(--primary-light);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.bulk-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.bulk-subtitle {
+    font-size: 13px;
+    color: var(--text-sub);
+    margin: 3px 0 0;
+}
+
+/* ── Ana Grid: kalan yüksekliği kaplar ── */
+.bulk-grid {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 20px;
+    flex: 1;
+    min-height: 0;
+}
+
+/* ── Sol Kolon: iki kart eşit büyür, taşmaz ── */
+.bulk-settings-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-height: 0;
+}
+
+    .bulk-settings-col .bulk-card {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .bulk-settings-col .bulk-card .bulk-field {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+/* ── Kart ── */
+.bulk-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 14px 18px;
+    box-shadow: var(--shadow-card);
+    position: relative;
+    box-sizing: border-box;
+}
+
+.bulk-card-num {
+    position: absolute;
+    top: 18px;
+    right: 22px;
+    font-size: 36px;
+    font-weight: 800;
+    color: #F1F5F9;
+    line-height: 1;
+    user-select: none;
+}
+
+.bulk-card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    position: relative;
+    z-index: 1;
+}
+
+    .bulk-card-title i {
+        color: var(--primary);
+        font-size: 14px;
+    }
+
+/* ── Alan ── */
+.bulk-field {
+    margin-bottom: 8px;
+}
+
+    .bulk-field:last-child {
+        margin-bottom: 0;
+    }
+
+    .bulk-field > label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-sub);
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+    }
+
+    .bulk-field > small {
+        display: block;
+        font-size: 11px;
+        color: var(--text-hint);
+        margin-top: 5px;
+    }
+
+/* ── Text Input ── */
+.bulk-input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg-input);
+    font-size: 13px;
+    color: var(--text-main);
+    transition: border-color 0.15s, background 0.15s;
+    box-sizing: border-box;
+}
+
+    .bulk-input:focus {
+        outline: none;
+        border-color: var(--border-focus);
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(90, 88, 242, 0.08);
+    }
+
+    .bulk-input::placeholder {
+        color: var(--text-hint);
+    }
+
+/* ── İki Kolon Satır ── */
+.bulk-row2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+/* ── Stepper ── */
+.bulk-stepper {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--bg-input);
+    height: 34px;
+}
+
+    .bulk-stepper button {
+        width: 34px;
+        height: 34px;
+        border: none;
+        background: transparent;
+        color: var(--text-main);
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background 0.15s;
+        flex-shrink: 0;
+    }
+
+        .bulk-stepper button:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+    .bulk-stepper > span {
+        flex: 1;
+        text-align: center;
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--text-main);
+        border-left: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+/* ── Numaralandırma Seçici ── */
+.bulk-num-options {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.bulk-radio-opt {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+    .bulk-radio-opt input[type="radio"] {
+        accent-color: var(--primary);
+        width: 15px;
+        height: 15px;
+        cursor: pointer;
+        flex-shrink: 0;
+    }
+
+    .bulk-radio-opt span {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-main);
+    }
+
+/* ── M2 Hero ── */
+.bulk-m2-hero {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+    margin-bottom: 6px;
+}
+
+    .bulk-m2-hero > span {
+        font-size: 26px;
+        font-weight: 800;
+        color: var(--primary);
+        line-height: 1;
+    }
+
+    .bulk-m2-hero > small {
+        font-size: 13px;
+        color: var(--text-sub);
+        font-weight: 600;
+    }
+
+/* ── Slider ── */
+.bulk-slider {
+    width: 100%;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.bulk-slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-hint);
+    margin-top: 4px;
+}
+
+/* ── Chip Seçici ── */
+.bulk-chips {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+}
+
+.bulk-chip {
+    cursor: pointer;
+}
+
+    .bulk-chip input {
+        display: none;
+    }
+
+    .bulk-chip > span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 6px;
+        text-align: center;
+        border: 1.5px solid var(--border);
+        border-radius: var(--radius-sm);
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-sub);
+        background: var(--bg-input);
+        transition: all 0.15s;
+        cursor: pointer;
+        min-height: 40px;
+    }
+
+    .bulk-chip:hover > span {
+        border-color: var(--primary);
+        color: var(--primary);
+        background: var(--primary-light);
+    }
+
+    .bulk-chip input:checked + span {
+        background: var(--primary-light);
+        color: var(--primary-dark);
+        border-color: var(--primary);
+    }
+
+/* ── Sağ Kolon: önizleme ── */
+.bulk-preview-col {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.bulk-preview-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 22px 24px;
+    min-height: 0;
+}
+
+/* ── Önizleme Başlık ── */
+.bulk-preview-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.bulk-preview-summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+    .bulk-preview-summary span {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-sub);
+    }
+
+#prev-total-badge {
+    background: var(--primary-light);
+    color: var(--primary-dark);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.bulk-dot {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--text-hint);
+    display: inline-block;
+}
+
+/* ── Kat Listesi: scroll sadece burada ── */
+.bulk-floors {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-right: 4px;
+    margin-bottom: 16px;
+    min-height: 0;
+}
+
+    .bulk-floors::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .bulk-floors::-webkit-scrollbar-track {
+        background: var(--bg-input);
+        border-radius: 10px;
+    }
+
+    .bulk-floors::-webkit-scrollbar-thumb {
+        background: var(--border);
+        border-radius: 10px;
+    }
+
+        .bulk-floors::-webkit-scrollbar-thumb:hover {
+            background: var(--text-hint);
+        }
+
+/* ── Kat Satırı ── */
+.bulk-floor {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 12px 14px;
+    flex-shrink: 0;
+}
+
+.bulk-floor-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.bulk-floor-badge {
+    background: var(--primary);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+}
+
+.bulk-floor-count {
+    font-size: 11px;
+    color: var(--text-hint);
+    font-weight: 500;
+}
+
+/* ── Daire Pill ── */
+.bulk-floor-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.bulk-daire-pill {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 80px;
+    flex: 1;
+    max-width: 120px;
+}
+
+.pill-no {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.pill-detail {
+    font-size: 10px;
+    color: var(--text-hint);
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* ── Önizleme Footer ── */
+.bulk-preview-footer {
+    border-top: 1px solid var(--border);
+    padding-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+/* ── Info Notu ── */
+.bulk-info-note {
+    background: var(--yellow-bg);
+    border: 1px solid var(--yellow-border);
+    border-radius: var(--radius-sm);
+    padding: 11px 14px;
+    font-size: 12px;
+    color: var(--yellow-text);
+    line-height: 1.6;
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+}
+
+    .bulk-info-note i {
+        flex-shrink: 0;
+        margin-top: 1px;
+        font-size: 13px;
+    }
+
+/* ── Kaydet Butonu ── */
+.bulk-btn-save {
+    width: 100%;
+    padding: 13px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+    box-shadow: 0 4px 14px rgba(90, 88, 242, 0.25);
+}
+
+    .bulk-btn-save:hover {
+        background: var(--primary-dark);
+        box-shadow: 0 6px 20px rgba(90, 88, 242, 0.35);
+        transform: translateY(-1px);
+    }
+
+    .bulk-btn-save:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(90, 88, 242, 0.2);
+    }
+
+/* ── Responsive ── */
+@media (max-width: 960px) {
+    .bulk-wrapper {
+        height: auto;
+    }
+
+    .bulk-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .bulk-settings-col .bulk-card {
+        flex: none;
+    }
+
+    .bulk-floors {
+        max-height: 400px;
+    }
+}

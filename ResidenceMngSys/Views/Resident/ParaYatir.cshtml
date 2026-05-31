@@ -1,0 +1,158 @@
+﻿@model ResidenceMngSys.Models.UserViewModel
+
+@{
+    ViewData["Title"] = "ParaYatir";
+    ViewData["ActiveMenu"] = "parayatir";
+    Layout = "~/Views/Shared/_ResidentLayout.cshtml";
+}
+
+<div style="margin-bottom: 2rem;">
+    <h2 class="section-title" style="margin-bottom: 0.25rem;">Bakiye Yükle</h2>
+    <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 1.5rem;">
+        Hesabınıza bakiye yükleyerek aidat ödemelerini yapabilirsiniz.
+    </p>
+
+    <div style="background: #3b82f6; border-radius: 1rem; padding: 1.5rem 2rem; display: flex; align-items: center; justify-content: space-between; color: white; margin-bottom: 1.5rem;">
+        <div>
+            <div style="font-size: 0.95rem; margin-bottom: 0.25rem; font-weight: 500; opacity: 0.9;">
+                Mevcut Bakiyeniz
+            </div>
+            <div style="font-size: 2rem; font-weight: 700;">@Model.wallet.Balance.ToString("N2") ₺  </div>
+        </div>
+        <div style="font-size: 3rem; opacity: 0.25;">
+            <i class="fa-solid fa-wallet"></i>
+        </div>
+    </div>
+
+    <!-- Info Alert -->
+    <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 1rem; padding: 1.5rem;">
+        <h4 style="color: #1e40af; font-weight: 600; font-size: 0.95rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fa-solid fa-circle-info"></i> Bakiye Yükleme Nasıl Çalışır?
+        </h4>
+        <ol style="color: #2563eb; font-size: 0.9rem; margin-left: 1.5rem; display: flex; flex-direction: column; gap: 0.25rem; padding-left: 0;">
+            <li>Aşağıdaki IBAN'a yüklemek istediğiniz tutarı transfer edin.</li>
+            <li>Transfer dekontunu yöneticiye gönderin (WhatsApp, e-posta, vs.).</li>
+            <li>Aşağıdaki formu doldurun ve talebinizi gönderin.</li>
+            <li>Yönetici dekontu onayladığında bakiyeniz otomatik yüklenir.</li>
+        </ol>
+    </div>
+</div>
+
+<!-- 2. Ödeme Yapılacak Hesap -->
+<div style="background: white; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 1.5rem; margin-bottom: 2rem;">
+    <h3 style="font-size: 1.1rem; font-weight: 600; color: #0f172a; margin-bottom: 1.25rem;">
+        Ödeme
+        Yapılacak Hesap
+    </h3>
+    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <div style="background: #f8fafc; border-radius: 0.5rem; padding: 1rem;">
+            <div style="color: #64748b; font-size: 0.75rem; margin-bottom: 0.25rem;">Banka</div>
+            <div style="color: #334155; font-size: 0.95rem; font-weight: 500;">@Model.paymentsInfo?.BankName</div>
+        </div>
+        <div style="background: #f8fafc; border-radius: 0.5rem; padding: 1rem;">
+            <div style="color: #64748b; font-size: 0.75rem; margin-bottom: 0.25rem;">Hesap Sahibi</div>
+            <div style="color: #334155; font-size: 0.95rem; font-weight: 500;">
+                @Model.paymentsInfo?.AccountHolder
+            </div>
+        </div>
+        <div style="background: #f8fafc; border-radius: 0.5rem; padding: 1rem; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <div style="color: #64748b; font-size: 0.75rem; margin-bottom: 0.25rem;">IBAN</div>
+                <div style="color: #334155; font-size: 0.95rem; font-weight: 500; font-family: monospace;">
+                    @Model.paymentsInfo?.IbanNumber
+                </div>
+            </div>
+            <button onclick ="this.select()"
+                    style="background: #e2e8f0; color: #475569; border: none; padding: 0.5rem 0.75rem; border-radius: 0.5rem; font-size: 0.85rem; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; transition: background 0.2s;"
+                    onmouseover="this.style.background='#cbd5e1'"
+                    onmouseout="this.style.background='#e2e8f0'">
+                <i class="fa-regular fa-copy"></i> Kopyala
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- 3. Bakiye Yükleme Talebi Oluştur -->
+<div style="background: white; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 1.5rem; margin-bottom: 2rem;">
+    <h3 style="font-size: 1.1rem; font-weight: 600; color: #0f172a; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.75rem;">
+        <div style="width: 28px; height: 28px; border-radius: 50%; background: #eff6ff; color: #3b82f6; display: flex; align-items: center; justify-content: center; font-size: 0.9rem;">
+            <i class="fa-solid fa-plus"></i>
+        </div>
+        Bakiye Yükleme Talebi Oluştur
+    </h3>
+    <form method="post" asp-controller="Resident" asp-action="ParaYatirPost" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="@Model.apartment.Id" />
+            <div style="margin-bottom: 1.25rem;">
+                <label style="display: block; color: #334155; font-size: 0.9rem; margin-bottom: 0.75rem; font-weight: 500;">
+                    Yüklenecek Tutar (₺)
+                </label>
+                <input type="number" name="amount" placeholder="0"
+                       style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; font-size: 0.95rem; outline: none; transition: border-color 0.2s;"
+                       onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='#e2e8f0'">
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; color: #334155; font-size: 0.9rem; margin-bottom: 0.75rem; font-weight: 500;">
+                    Açıklama / Dekont Bilgisi
+                </label>
+                <textarea name="Description" rows="3"
+                          placeholder="Örn: 1000 TL transferi yaptım." style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; font-size: 0.95rem; outline: none; resize: vertical; transition: border-color 0.2s; font-family: inherit;"
+                          onfocus="this.style.borderColor='#3b82f6'"
+                          onblur="this.style.borderColor='#e2e8f0'"></textarea>
+            </div>
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; color: #334155; font-size: 0.9rem; margin-bottom: 0.75rem; font-weight: 500;">
+                    Dekont (PDF, JPG, PNG) <span style="color: #94a3b8; font-weight: normal; font-size: 0.8rem;">İsteğe Bağlı</span>
+                </label>
+            <input type="file" name="ReceiptFile" 
+                       style="width: 100%; padding: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.5rem; font-size: 0.95rem; outline: none; transition: border-color 0.2s; background-color: #f8fafc;"
+                       onfocus="this.style.borderColor='#3b82f6'" onblur="this.style.borderColor='#e2e8f0'">
+            </div>
+    
+            <button type="submit" style="width: 100%; background: #2563eb; color: white; padding: 0.875rem; border-radius: 0.75rem; font-weight: 600; font-size: 0.95rem; border: none; cursor: pointer; transition: background 0.2s;"
+                    onmouseover="this.style.background='#1d4ed8'" onmouseout="this.style.background='#2563eb'">
+                Talep Gönder
+            </button>
+    </form>      
+
+</div>
+
+    
+<!-- 4. Geçmiş Taleplerim -->
+<div style="background: white; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 1.5rem;">
+    <h3 style="font-size: 1.1rem; font-weight: 600; color: #0f172a; margin-bottom: 1.25rem;">
+        Geçmiş Taleplerim
+    </h3>
+    <ul class="talep-listesi" style="display: flex; flex-direction: column; gap: 0;">
+        @foreach (var request in Model.RequestsList.Where(x => x.Apartment_Id == Model.apartment.Id))
+        {
+            <li style="display: flex; justify-content: space-between; align-items: start; padding: 0.75rem 0; border-bottom: 1px solid #f1f5f9;">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                        <span style="font-weight: 600; color: #0f172a; font-size: 0.95rem;">@request.Amount.ToString("N2") ₺</span>
+
+                        @if (request.Status == "Onaylandı")
+                        {
+                            <span style="background: #dcfce7; color: #15803d; font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 9999px; font-weight: 500;">
+                                <i class="fa-solid fa-circle-check"></i> @request.Status
+                            </span>
+                        }
+                        else if (request.Status == "Reddedildi")
+                        {
+                            <span style="background: #fee2e2; color: #dc2626; font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 9999px; font-weight: 500;">
+                                <i class="fa-solid fa-circle-xmark"></i> @request.Status
+                            </span>
+                        }
+                        else
+                        {
+                            <span style="background: #ffedd5; color: #ea580c; font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 9999px; font-weight: 500;">
+                                <i class="fa-regular fa-clock"></i> @request.Status
+                            </span>
+                        }
+
+                    </div>
+                    <div style="color: #94a3b8; font-size: 0.8rem;">@request.CreatedAt</div>
+                </div>
+            </li>
+        }
+    </ul>
+</div>

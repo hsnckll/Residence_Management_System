@@ -1,0 +1,191 @@
+﻿@{
+    ViewData["Title"] = "Tekil Daire Ekle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/aptolusturmatekil.css" />
+
+
+<div class="apt-wrapper">
+
+    <!-- BAŞLIK -->
+    <div class="apt-header">
+        <div class="apt-header-icon">
+            <i class="fas fa-building"></i>
+        </div>
+        <div>
+            <h1 class="apt-title">Tekil Daire Tanımla</h1>
+            <p class="apt-subtitle">Yeni bir yaşam alanı oluşturmak için teknik detayları belirleyin.</p>
+        </div>
+    </div>
+
+    <form asp-controller="Admin" asp-action="tekilapartmanolusturma" method="post">
+        <div class="apt-grid">
+
+            <div class="apt-form-col">
+
+                <!-- KART 01: KONUM & KİMLİK -->
+                <div class="apt-card">
+                    <span class="apt-card-num">01</span>
+                    <h2 class="apt-card-title">
+                        <i class="fas fa-map-marker-alt"></i> Konum & Kimlik
+                    </h2>
+
+                    <!-- Blok -->
+                    <div class="apt-field">
+                        <label>Blok / Bina Adı</label>
+                        <input type="text" name="Blok" placeholder="Örn: A Blok" class="apt-input"
+                               oninput="aptSync('blok', this.value)">
+                        <small>Tek bina ise boş bırakabilirsiniz.</small>
+                    </div>
+
+                    <!-- Kat + Daire No -->
+                    <div class="apt-row2">
+                        <div class="apt-field">
+                            <label>Kat</label>
+                            <div class="apt-stepper">
+                                <button type="button" onclick="aptStepKat(-1)">−</button>
+                                <span id="aptKatDisplay">0</span>
+                                <button type="button" onclick="aptStepKat(1)">+</button>
+                                <input type="hidden" name="Kat" id="aptKatInput" value="0">
+                            </div>
+                        </div>
+
+                        <div class="apt-field">
+                            <label>Daire No</label>
+                            <div class="apt-prefix-wrap">
+                                <span class="apt-prefix">#</span>
+                                <input type="text" name="DaireNo" class="apt-input" placeholder="12"
+                                       oninput="aptSync('no', this.value)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KART 02: BOYUT & TİP -->
+                <div class="apt-card">
+                    <span class="apt-card-num">02</span>
+                    <h2 class="apt-card-title">
+                        <i class="fas fa-expand-arrows-alt"></i> Boyut & Tip
+                    </h2>
+
+                    <!-- MetreKare -->
+                    <div class="apt-field">
+                        <label>Metrekare</label>
+                        <div class="apt-m2-hero">
+                            <span id="aptM2Display">80</span>
+                            <small>m²</small>
+                        </div>
+                        <input type="range" name="Metrekare" min="20" max="500" value="80" step="5"
+                               class="apt-slider" oninput="aptUpdateM2(this.value)">
+                        <div class="apt-slider-labels">
+                            <span>20 m²</span><span>500 m²</span>
+                        </div>
+                    </div>
+
+                    <!-- Oda Tipi -->
+                    <div class="apt-field">
+                        <label>Oda Sayısı (Tip)</label>
+                        <div class="apt-chips">
+                            <label class="apt-chip">
+                                <input type="radio" name="Tip" value="1+1" onclick="aptSync('tip','1+1')">
+                                <span>1+1</span>
+                            </label>
+                            <label class="apt-chip">
+                                <input type="radio" name="Tip" value="2+1" onclick="aptSync('tip','2+1')">
+                                <span>2+1</span>
+                            </label>
+                            <label class="apt-chip">
+                                <input type="radio" name="Tip" value="3+1" checked onclick="aptSync('tip','3+1')">
+                                <span>3+1</span>
+                            </label>
+                            <label class="apt-chip">
+                                <input type="radio" name="Tip" value="4+1" onclick="aptSync('tip','4+1')">
+                                <span>4+1</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SAĞ: KAYIT ÖZETİ -->
+            <div class="apt-sidebar">
+                <div class="apt-card apt-summary-card">
+                    <h2 class="apt-card-title">
+                        <i class="fas fa-clipboard-list"></i> Kayıt Özeti
+                    </h2>
+
+                    <ul class="apt-summary-list">
+                        <li>
+                            <span>Blok</span>
+                            <strong id="p-blok" class="empty-val">—</strong>
+                        </li>
+                        <li>
+                            <span>Kat</span>
+                            <strong id="p-kat">0</strong>
+                        </li>
+                        <li>
+                            <span>Daire No</span>
+                            <strong id="p-no" class="empty-val">—</strong>
+                        </li>
+                        <li>
+                            <span>Metrekare</span>
+                            <strong id="p-m2">80 m²</strong>
+                        </li>
+                        <li>
+                            <span>Daire Tipi</span>
+                            <strong id="p-tip">3+1</strong>
+                        </li>
+                        <li>
+                            <span>Durum</span>
+                            <span class="apt-status-badge">
+                                <span class="apt-status-dot"></span> Boş
+                            </span>
+                        </li>
+                    </ul>
+
+                    <div class="apt-info-note">
+                        <i class="fas fa-info-circle"></i>
+                        Daire sisteme "Boş" olarak eklenir. Sakin ataması daha sonra yapılabilir.
+                    </div>
+
+                    <!-- Buton artık dıştaki form'a ait, type="submit" -->
+                    <button type="submit" class="apt-btn-save">
+                        <i class="fas fa-check-circle"></i> Daireyi Kaydet
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+</div>
+
+
+<script>
+    var aptKat = 0;
+
+    function aptStepKat(d) {
+        aptKat += d;
+        document.getElementById('aptKatDisplay').innerText = aptKat;
+        document.getElementById('aptKatInput').value = aptKat;
+        document.getElementById('p-kat').innerText = aptKat;
+    }
+
+    function aptUpdateM2(v) {
+        document.getElementById('aptM2Display').innerText = v;
+        document.getElementById('p-m2').innerText = v + ' m²';
+    }
+
+    function aptSync(key, val) {
+        var el = document.getElementById('p-' + key);
+        el.innerText = val || '—';
+        if (val) {
+            el.classList.remove('empty-val');
+        } else {
+            el.classList.add('empty-val');
+        }
+    }
+</script>

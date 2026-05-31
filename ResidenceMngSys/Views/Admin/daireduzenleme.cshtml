@@ -1,0 +1,204 @@
+﻿@{
+    ViewData["Title"] = "Daire Düzenle";
+    ViewData["ActiveMenu"] = "daireyonetimi";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/daireduzenle.css" />
+
+@model ResidenceMngSys.Models.UserViewModel
+
+<div class="dd-wrapper">
+
+    <div class="dd-header">
+        
+        <div>
+            <h1 class="dd-title">Daire Düzenle</h1>
+            <p class="dd-subtitle">Daire bilgilerini güncelleyin.</p>
+        </div>
+    </div>
+
+    <div class="dd-sakin-card">
+
+        <!-- Sol şerit: "Aktif Bilgiler" etiketi -->
+        <div class="dd-sakin-aktif-serit">
+            <div class="dd-aktif-dot"></div>
+            <span class="dd-aktif-label">Aktif Bilgiler</span>
+        </div>
+
+        <!-- Sağ: Mevcut kayıtlı bilgiler -->
+        <div class="dd-sakin-body">
+            <div class="dd-sakin-avatar">@Model.guncellenecekApartman?.User?.Name[0] @Model.guncellenecekApartman?.User?.Surname[0]</div>
+            <div class="dd-sakin-info">
+                <p class="dd-sakin-label">Daire Sahibi</p>
+                <p class="dd-sakin-ad">@Model.guncellenecekApartman?.User?.Name @Model.guncellenecekApartman?.User?.Surname</p>
+                <p class="dd-sakin-kayit"><i class="fas fa-clock"></i> @Model.guncellenecekApartman?.CreatedAt</p>
+            </div>
+            <div class="dd-sakin-stats">
+                <div class="dd-stat">
+                    <span class="dd-stat-label">Blok</span>
+                    <span class="dd-stat-val">@Model.guncellenecekApartman.BlockNo</span>
+                </div>
+                <div class="dd-stat-sep"></div>
+                <div class="dd-stat">
+                    <span class="dd-stat-label">Daire No</span>
+                    <span class="dd-stat-val">@Model.guncellenecekApartman.ApartmentNo</span>
+                </div>
+                <div class="dd-stat-sep"></div>
+                <div class="dd-stat">
+                    <span class="dd-stat-label">Kat</span>
+                    <span class="dd-stat-val">@Model.guncellenecekApartman.FloorNo</span>
+                </div>
+                <div class="dd-stat-sep"></div>
+                <div class="dd-stat">
+                    <span class="dd-stat-label">Durum</span>
+                    <span class="dd-badge-dolu">● Dolu</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- BÖLÜM AYIRICI -->
+    <div class="dd-section-divider">
+        <div class="dd-section-line"></div>
+        <div class="dd-section-label">
+            <i class="fas fa-pen"></i>
+            <span>Güncellenecek Bilgiler</span>
+        </div>
+        <div class="dd-section-line"></div>
+    </div>
+
+    <!-- ANA GRID: SOL + SAĞ (eşit yükseklik) -->
+    <form asp-action="daireduzenlemepost" asp-controller="Admin" method="post">
+        <div class="dd-main-grid">
+
+        <!-- SOL KOLON: KONUM & KİMLİK -->
+        
+            <input type="hidden" name="id" value="@Model.guncellenecekApartman.Id"/> @* Zaten get methodundaki gönderdiğimizi post methoduna taşıyoruz *@
+            <div class="dd-card">
+                <div class="dd-card-head">
+                    <div class="dd-card-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                        <h3 class="dd-card-title">Konum & Kimlik</h3>
+                        <p class="dd-card-sub">Dairenin bulunduğu konum</p>
+                    </div>
+                    <span class="dd-card-num">01</span>
+                </div>
+
+                <div class="dd-field">
+                    <label>Blok / Bina Adı</label>
+                    <input type="text" name="Blok" class="dd-input" value="@Model.guncellenecekApartman.BlockNo">
+                    <small>Tek bina ise boş bırakabilirsiniz.</small>
+                </div>
+
+                <div class="dd-field-row">
+                    <div class="dd-field">
+                        <label>Kat</label>
+                        <input type="text" name="Kat" class="dd-input" value="@Model.guncellenecekApartman.FloorNo">
+                    </div>
+                    <div class="dd-field">
+                        <label>Daire No</label>
+                        <div class="dd-prefix-wrap">
+                            <span class="dd-prefix">#</span>
+                            <input type="text" name="DaireNo" class="dd-input" value="@Model.guncellenecekApartman.ApartmentNo">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dd-field">
+                    <label>Durum</label>
+                    <div class="dd-chip-group">
+
+
+                        <label class="dd-chip dd-chip--bos">
+                            <input type="radio" name="Durum" value="0" @(Model.guncellenecekApartman.IsOccupied == 0 ? "checked" : "")>
+                            <span><i class="fas fa-circle-dot"></i> Boş</span>
+                        </label>
+
+
+                        <label class="dd-chip dd-chip--dolu">
+                            <input type="radio" name="Durum" value="1" @(Model.guncellenecekApartman.IsOccupied == 1 ? "checked" : "")>
+                            <span><i class="fas fa-circle-dot"></i> Dolu</span>
+                        </label>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- SAĞ KOLON: BOYUT & TİP -->
+            <div class="dd-card">
+                <div class="dd-card-head">
+                    <div class="dd-card-icon"><i class="fas fa-vector-square"></i></div>
+                    <div>
+                        <h3 class="dd-card-title">Boyut & Tip</h3>
+                        <p class="dd-card-sub">Metrekare ve daire tipi</p>
+                    </div>
+                    <span class="dd-card-num">02</span>
+                </div>
+
+                <div class="dd-field">
+                    <label>Metrekare</label>
+                    <div class="dd-m2-row">
+                        <span class="dd-m2-val" id="dd-m2-display">@Model.guncellenecekApartman.SquareMeters</span>
+                        <span class="dd-m2-unit">m²</span>
+                    </div>
+                    <input type="range" name="Metrekare" min="20" max="500" value="@Model.guncellenecekApartman.SquareMeters" step="5"
+                           class="dd-slider" oninput="ddUpdateM2(this.value)">
+                    <div class="dd-slider-labels">
+                        <span>20 m²</span><span>500 m²</span>
+                    </div>
+                </div>
+
+
+                <div class="dd-field">
+                    <label>Daire Tipi</label>
+                    <div class="dd-chip-group dd-chip-group--tip">
+                        <label class="dd-chip">
+                            <input type="radio" name="Tip" value="1+1" @(Model.guncellenecekApartman.Type == "1+1" ? "checked" : "")>
+                            <span>1+1</span>
+                        </label>
+                        <label class="dd-chip">
+                            <input type="radio" name="Tip" value="2+1" @(Model.guncellenecekApartman.Type == "2+1" ? "checked" : "")>
+                            <span>2+1</span>
+                        </label>
+                        <label class="dd-chip">
+                            <input type="radio" name="Tip" value="3+1" @(Model.guncellenecekApartman.Type == "3+1" ? "checked" : "")>
+                            <span>3+1</span>
+                        </label>
+                        <label class="dd-chip">
+                            <input type="radio" name="Tip" value="4+1" @(Model.guncellenecekApartman.Type == "4+1" ? "checked" : "")>
+                            <span>4+1</span>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+    </div>
+    
+        
+
+    
+
+    <!-- FOOTER BUTONLAR -->
+    <div class="dd-footer">
+        <a asp-action="DaireYonetimi" asp-controller="Admin" class="dd-btn-iptal">
+            <i class="fas fa-times"></i> İptal
+        </a>
+
+
+
+        <button type="submit" class="dd-btn-kaydet">
+            <i class="fas fa-check"></i> Değişiklikleri Kaydet
+        </button>
+    </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        function ddUpdateM2(v) {
+            document.getElementById('dd-m2-display').innerText = v;
+        }
+    </script>
+}

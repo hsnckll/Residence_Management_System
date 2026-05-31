@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Duyuru Ekle";
+    ViewData["ActiveMenu"] = "announcements";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/css/duyuru.css" />
+</head>
+<body>
+
+    <div class="duyuru-ekle-wrapper">
+        <div class="duyuru-ekle-card">
+
+            <div class="card-header">
+                <div class="header-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 11l19-9-9 19-2-8-8-2z" />
+                    </svg>
+                </div>
+                <h2 class="card-title">Duyuru Ekle</h2>
+                <p class="card-subtitle">Tüm sakinlere iletilecek yeni bir duyuru oluşturun.</p>
+            </div>
+            <form asp-action="duyuruolusturpost" asp-controller="Admin" method="post">
+            <div class="card-body">
+
+                <!-- Başlık -->
+                <div class="form-group">
+                    <label class="form-label" for="baslik">Duyuru Başlığı</label>
+                    <input type="text"
+                           
+                           name="Baslik"
+                           class="form-input"
+                           placeholder="Örn: Asansör Bakımı Hakkında" />
+                </div>
+
+                <!-- İçerik -->
+                <div class="form-group">
+                    <label class="form-label" for="icerik">İçerik</label>
+                    <textarea 
+                              name="Icerik"
+                              class="form-textarea"
+                              rows="6"
+                              placeholder="Duyuru içeriğini buraya yazın..."></textarea>
+                </div>
+
+                <!-- Öncelik Seviyesi -->
+                <div class="form-group">
+                    <label class="form-label">Öncelik Seviyesi</label>
+                    <div class="priority-options">
+                        <label class="priority-option">
+                            <input type="radio" name="Oncelik" value="Normal" checked />
+                            <span class="priority-badge normal">Normal</span>
+                        </label>
+                        <label class="priority-option">
+                            <input type="radio" name="Oncelik" value="Önemli" />
+                            <span class="priority-badge onemli">Önemli</span>
+                        </label>
+                        <label class="priority-option">
+                            <input type="radio" name="Oncelik" value="Acil" />
+                            <span class="priority-badge acil">Acil</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Butonlar -->
+                <div class="form-actions">
+                        <button type="submit" class="btn-primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 11l19-9-9 19-2-8-8-2z" />
+                            </svg>
+                            Duyuruyu Yayınla
+                        </button>
+                    </form>
+                    
+                    <a href="/Admin/Announcements" class="btn-secondary">İptal et</a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
