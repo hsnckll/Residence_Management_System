@@ -55,6 +55,10 @@
               "target": "Package",
               "version": "[1.8.23, )"
             },
+            "Hangfire.AspNetCore": {
+              "target": "Package",
+              "version": "[1.8.23, )"
+            },
             "Hangfire.SqlServer": {
               "target": "Package",
               "version": "[1.8.23, )"

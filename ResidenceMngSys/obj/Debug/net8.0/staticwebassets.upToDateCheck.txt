@@ -13,6 +13,7 @@ wwwroot\dekontlar\03eae2c7-4f5d-4c54-a6b0-13242316d578.pdf
 wwwroot\dekontlar\06d1c8b6-e2f5-427b-b6e5-a0ede320e691.pdf
 wwwroot\dekontlar\0b104a60-df7f-4faa-b3b4-7f826a5673f2.pdf
 wwwroot\dekontlar\1722ece4-6445-4d44-92a2-4d8ba6c79756.png
+wwwroot\dekontlar\22b0758b-9cc6-433b-8a38-fd340f6d6d4c.png
 wwwroot\dekontlar\232adac6-9f58-48ee-8135-60ea6f46c259.png
 wwwroot\dekontlar\36b27860-7891-44d8-891a-6266015bbf3f.pdf
 wwwroot\dekontlar\3f982a5e-5ebf-4cfb-8172-76942e9ef892.pdf
@@ -100,6 +101,7 @@ wwwroot\lib\jquery\dist\jquery.js
 wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
+wwwroot\oneriler\3f49d05b-8afb-4aa0-be1e-3f8d86a525b1.jpg
 wwwroot\oneriler\ad3a5a02-0583-4f76-91ff-bb9ef518afb7.jpg
 wwwroot\oneriler\e16227b3-d523-49db-b3b3-dfdb0e12f7bc.png
 wwwroot\oneriler\e4254871-22be-44e9-ace5-edfedf607cd0.png
